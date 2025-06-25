@@ -72,7 +72,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
           className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
         >
           <Instagram className="h-4 w-4 mr-2" />
-          {feedbackRequest ? "Share to Instagram Story" : "Create Feedback Link"}
+          {feedbackRequest ? "Share to Instagram" : "Create Feedback Link"}
         </Button>
         <Button
           onClick={onCopyLink}
