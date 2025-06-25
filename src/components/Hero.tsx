@@ -1,79 +1,80 @@
 
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Shield, Heart } from "lucide-react";
+import { MessageSquare, Send, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-      <div className="absolute top-40 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
-      <div className="absolute -bottom-32 left-20 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-500"></div>
-      
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <div className="mb-8 flex justify-center">
-          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-4 rounded-2xl shadow-lg animate-scale-in">
-            <MessageSquare className="h-16 w-16 text-white" />
+    <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 text-center max-w-4xl">
+        <div className="mb-8">
+          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-4 rounded-3xl w-fit mx-auto mb-8 shadow-xl">
+            <MessageSquare className="h-12 w-12 text-white" />
           </div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent leading-tight">
+            Get Honest Feedback,
+            <br />
+            <span className="text-4xl md:text-5xl">Anonymously</span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Create your personal link and receive genuine, anonymous feedback from friends, colleagues, and anyone you trust. 
+            No accounts needed to send feedback.
+          </p>
         </div>
-        
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent animate-fade-in">
-          Get Honest Feedback
-        </h1>
-        
-        <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto animate-fade-in delay-300">
-          Receive anonymous messages from friends, colleagues, and anyone who wants to share honest thoughts with you.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in delay-500">
-          <Button 
-            onClick={() => navigate('/request')}
-            size="lg" 
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-          >
-            Create Your Box
-          </Button>
-          <Button 
-            onClick={() => {
-              // For now, navigate to request page since we need a user ID to send feedback
-              // In a real app, this would be a separate page to find users
-              navigate('/request');
-            }}
-            size="lg" 
-            variant="outline" 
-            className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105"
-          >
-            Send Anonymous Message
-          </Button>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          {user ? (
+            <Button
+              onClick={() => navigate('/request')}
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <Send className="h-5 w-5 mr-2" />
+              Create Your Feedback Link
+            </Button>
+          ) : (
+            <Button
+              onClick={() => navigate('/auth')}
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+              <Send className="h-5 w-5 mr-2" />
+              Get Started - It's Free
+            </Button>
+          )}
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto animate-fade-in delay-700">
-          <div className="text-center group">
-            <div className="bg-white p-6 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <Shield className="h-12 w-12 text-purple-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">100% Anonymous</h3>
-              <p className="text-gray-600">Your identity is completely protected. Send and receive messages without revealing who you are.</p>
+
+        <div className="grid md:grid-cols-3 gap-8 mt-16">
+          <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-purple-100 p-3 rounded-xl w-fit mx-auto mb-4">
+              <MessageSquare className="h-6 w-6 text-purple-600" />
             </div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Completely Anonymous</h3>
+            <p className="text-gray-600">
+              Senders remain completely anonymous. No login required to give feedback.
+            </p>
           </div>
           
-          <div className="text-center group">
-            <div className="bg-white p-6 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <Heart className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Honest Feedback</h3>
-              <p className="text-gray-600">Get genuine opinions and constructive feedback that people might hesitate to share otherwise.</p>
+          <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-blue-100 p-3 rounded-xl w-fit mx-auto mb-4">
+              <Send className="h-6 w-6 text-blue-600" />
             </div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Easy to Share</h3>
+            <p className="text-gray-600">
+              Get a personalized link that you can share anywhere to collect feedback.
+            </p>
           </div>
           
-          <div className="text-center group">
-            <div className="bg-white p-6 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <MessageSquare className="h-12 w-12 text-indigo-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Easy Sharing</h3>
-              <p className="text-gray-600">Share your unique link with friends and colleagues to start receiving anonymous messages.</p>
+          <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-pink-100 p-3 rounded-xl w-fit mx-auto mb-4">
+              <Heart className="h-6 w-6 text-pink-600" />
             </div>
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">Honest & Safe</h3>
+            <p className="text-gray-600">
+              Create a safe space for honest feedback without fear of judgment.
+            </p>
           </div>
         </div>
       </div>

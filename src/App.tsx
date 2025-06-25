@@ -24,11 +24,7 @@ const App = () => (
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/feedback/:userId" element={<SendFeedback />} />
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Index />
-              </ProtectedRoute>
-            } />
+            <Route path="/" element={<Index />} />
             <Route path="/request" element={
               <ProtectedRoute>
                 <FeedbackRequest />
