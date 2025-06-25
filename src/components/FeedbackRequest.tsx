@@ -1,19 +1,44 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Share2, Copy, MessageSquare, Link } from "lucide-react";
+import { Share2, Copy, MessageSquare, Link, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 
 const FeedbackRequest = () => {
   const [userName, setUserName] = useState("");
-  const [uniqueSlug, setUniqueSlug] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  // Check for existing feedback request
+  const { data: existingRequest, isLoading: checkingExisting } = useQuery({
+    queryKey: ['existing-feedback-request', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      
+      const { data, error } = await supabase
+        .from('feedback_requests')
+        .select('id, unique_slug, name')
+        .eq('user_id', user.id)
+        .eq('is_active', true)
+        .order('created_at', { ascending: false })
+        .limit(1);
+      
+      if (error) {
+        console.error('Error fetching existing request:', error);
+        return null;
+      }
+      
+      return data && data.length > 0 ? data[0] : null;
+    },
+    enabled: !!user?.id,
+  });
 
   useEffect(() => {
     // Set default name from user metadata or email
@@ -53,8 +78,9 @@ const FeedbackRequest = () => {
 
       if (requestError) throw requestError;
 
-      setUniqueSlug(slug);
       toast.success("Your feedback link has been generated! 🎉");
+      // Refresh the page to show the existing request
+      window.location.reload();
     } catch (error) {
       console.error('Error creating feedback request:', error);
       toast.error("Failed to generate link. Please try again.");
@@ -64,8 +90,8 @@ const FeedbackRequest = () => {
   };
 
   const getFeedbackUrl = () => {
-    if (!uniqueSlug) return "";
-    return `${window.location.origin}/feedback/${uniqueSlug}`;
+    if (!existingRequest?.unique_slug) return "";
+    return `${window.location.origin}/feedback/${existingRequest.unique_slug}`;
   };
 
   const handleCopyLink = () => {
@@ -87,6 +113,19 @@ const FeedbackRequest = () => {
     }
   };
 
+  if (checkingExisting) {
+    return (
+      <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 min-h-screen">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 min-h-screen">
       <div className="container mx-auto px-4 max-w-2xl">
@@ -95,14 +134,77 @@ const FeedbackRequest = () => {
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Request Anonymous Feedback
+            {existingRequest ? "Your Feedback Link" : "Request Anonymous Feedback"}
           </h1>
           <p className="text-lg text-gray-600">
-            Create your personalized link to receive honest, anonymous feedback from friends and colleagues
+            {existingRequest 
+              ? "Your personalized link is ready to share with friends and colleagues"
+              : "Create your personalized link to receive honest, anonymous feedback from friends and colleagues"
+            }
           </p>
         </div>
 
-        {!uniqueSlug ? (
+        {existingRequest ? (
+          // Show existing link
+          <div className="space-y-6">
+            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-center text-gray-700 flex items-center justify-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  Your Feedback Link is Active
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="bg-gray-50 p-4 rounded-lg border">
+                    <p className="text-sm text-gray-600 mb-2">Share this link:</p>
+                    <p className="text-blue-600 font-mono text-sm break-all">
+                      {getFeedbackUrl()}
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button
+                      onClick={handleShare}
+                      className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    >
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share Link
+                    </Button>
+                    <Button
+                      onClick={handleCopyLink}
+                      variant="outline"
+                      className="flex-1 border-purple-200 text-purple-600 hover:bg-purple-50 py-3 rounded-xl font-semibold transition-all duration-300"
+                    >
+                      <Copy className="h-4 w-4 mr-2" />
+                      Copy Link
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold text-gray-700 mb-2">How it works</h3>
+                  <p className="text-gray-600 mb-4">
+                    Share your link with anyone you'd like feedback from. 
+                    All responses will be completely anonymous and appear in your inbox.
+                  </p>
+                  <Button
+                    onClick={() => navigate('/')}
+                    variant="ghost"
+                    className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                  >
+                    View My Inbox
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : (
+          // Show form to create new link
           <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-4">
               <CardTitle className="text-center text-gray-700 flex items-center justify-center gap-2">
@@ -146,63 +248,6 @@ const FeedbackRequest = () => {
               </div>
             </CardContent>
           </Card>
-        ) : (
-          <div className="space-y-6">
-            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-center text-gray-700">
-                  Your Feedback Link is Ready! 🎉
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg border">
-                    <p className="text-sm text-gray-600 mb-2">Share this link:</p>
-                    <p className="text-blue-600 font-mono text-sm break-all">
-                      {getFeedbackUrl()}
-                    </p>
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button
-                      onClick={handleShare}
-                      className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Share Link
-                    </Button>
-                    <Button
-                      onClick={handleCopyLink}
-                      variant="outline"
-                      className="flex-1 border-purple-200 text-purple-600 hover:bg-purple-50 py-3 rounded-xl font-semibold transition-all duration-300"
-                    >
-                      <Copy className="h-4 w-4 mr-2" />
-                      Copy Link
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-              <CardContent className="pt-6">
-                <div className="text-center">
-                  <h3 className="text-lg font-semibold text-gray-700 mb-2">What's Next?</h3>
-                  <p className="text-gray-600 mb-4">
-                    Share your link with friends, colleagues, or anyone you'd like feedback from. 
-                    All responses will be completely anonymous.
-                  </p>
-                  <Button
-                    onClick={() => navigate('/')}
-                    variant="ghost"
-                    className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                  >
-                    View My Inbox
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         )}
       </div>
     </section>

@@ -33,6 +33,30 @@ const Header = () => {
     enabled: !!user?.id,
   });
 
+  // Check if user has an active feedback request
+  const { data: existingRequest } = useQuery({
+    queryKey: ['existing-feedback-request', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      
+      const { data, error } = await supabase
+        .from('feedback_requests')
+        .select('id, unique_slug')
+        .eq('user_id', user.id)
+        .eq('is_active', true)
+        .order('created_at', { ascending: false })
+        .limit(1);
+      
+      if (error) {
+        console.error('Error fetching existing request:', error);
+        return null;
+      }
+      
+      return data && data.length > 0 ? data[0] : null;
+    },
+    enabled: !!user?.id,
+  });
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -40,6 +64,17 @@ const Header = () => {
       navigate('/');
     } catch (error) {
       toast.error("Error signing out");
+    }
+  };
+
+  const handleRequestFeedback = () => {
+    if (existingRequest) {
+      // User already has a feedback request, navigate to inbox
+      navigate('/');
+      toast.info("You already have an active feedback link! Check your inbox below.");
+    } else {
+      // User doesn't have a feedback request, navigate to create one
+      navigate('/request');
     }
   };
 
@@ -81,12 +116,12 @@ const Header = () => {
             // Authenticated user view
             <>
               <Button 
-                onClick={() => navigate('/request')}
+                onClick={handleRequestFeedback}
                 variant="outline" 
                 className="border-purple-200 text-purple-600 hover:bg-purple-50"
               >
                 <Send className="h-4 w-4 mr-2" />
-                Request Feedback
+                {existingRequest ? "View Feedback" : "Request Feedback"}
               </Button>
               
               <div className="flex items-center space-x-2 text-sm text-gray-600">
