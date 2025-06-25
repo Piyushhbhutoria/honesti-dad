@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,20 +38,21 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* iOS 16 style custom properties */
+    --ios-blue: 211 86% 60%;
+    --ios-blue-light: 211 86% 70%;
+    --ios-gray: 240 4% 46%;
+    --ios-gray-light: 240 6% 90%;
+    --ios-background: 0 0% 99%;
+    --ios-surface: 0 0% 97%;
   }
 
   .dark {
@@ -89,6 +91,14 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* iOS 16 dark mode */
+    --ios-blue: 211 86% 65%;
+    --ios-blue-light: 211 86% 75%;
+    --ios-gray: 240 6% 83%;
+    --ios-gray-light: 240 4% 16%;
+    --ios-background: 0 0% 6%;
+    --ios-surface: 0 0% 11%;
   }
 }
 
