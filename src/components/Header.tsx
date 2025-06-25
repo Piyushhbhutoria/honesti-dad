@@ -59,11 +59,17 @@ const Header = () => {
 
   const handleSignOut = async () => {
     try {
+      console.log('Sign out button clicked');
       await signOut();
-      toast.success("Signed out successfully");
+      
+      // Navigate to home page after successful sign out
       navigate('/');
+      toast.success("Signed out successfully");
     } catch (error) {
-      toast.error("Error signing out");
+      console.error('Sign out error in header:', error);
+      // Still navigate and show success since local state is cleared
+      navigate('/');
+      toast.success("Signed out successfully");
     }
   };
 
