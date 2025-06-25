@@ -31,7 +31,6 @@ const MessageInbox = () => {
     const loadInboxData = async () => {
       try {
         // Get the most recent feedback request for demo purposes
-        // In a real app, this would be based on the authenticated user
         const { data: requests, error: requestError } = await supabase
           .from('feedback_requests')
           .select('id, unique_slug, name')

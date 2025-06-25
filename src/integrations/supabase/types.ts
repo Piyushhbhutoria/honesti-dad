@@ -71,29 +71,32 @@ export type Database = {
             foreignKeyName: "feedback_requests_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
       }
-      users: {
+      profiles: {
         Row: {
           created_at: string
           email: string | null
           id: string
           name: string
+          updated_at: string
         }
         Insert: {
           created_at?: string
           email?: string | null
           id?: string
           name: string
+          updated_at?: string
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
           name?: string
+          updated_at?: string
         }
         Relationships: []
       }

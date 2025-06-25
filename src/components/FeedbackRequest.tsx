@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,14 +23,14 @@ const FeedbackRequest = () => {
     setIsLoading(true);
     
     try {
-      // Create user first
-      const { data: userData, error: userError } = await supabase
-        .from('users')
+      // Create profile first
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
         .insert({ name: userName.trim() })
         .select()
         .single();
 
-      if (userError) throw userError;
+      if (profileError) throw profileError;
 
       // Generate unique slug
       const slug = userName.toLowerCase().replace(/\s+/g, '') + Date.now();
@@ -38,7 +39,7 @@ const FeedbackRequest = () => {
       const { data: requestData, error: requestError } = await supabase
         .from('feedback_requests')
         .insert({
-          user_id: userData.id,
+          user_id: profileData.id,
           unique_slug: slug,
           name: userName.trim()
         })
