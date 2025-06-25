@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Send, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +37,7 @@ const Hero = () => {
             className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
             <Send className="h-5 w-5 mr-2" />
-            Get Started - It's Free
+            Get Started
           </Button>
         </div>
 
