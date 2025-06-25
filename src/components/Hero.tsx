@@ -38,6 +38,11 @@ const Hero = () => {
             Create Your Box
           </Button>
           <Button 
+            onClick={() => {
+              // For now, navigate to request page since we need a user ID to send feedback
+              // In a real app, this would be a separate page to find users
+              navigate('/request');
+            }}
             size="lg" 
             variant="outline" 
             className="border-2 border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:scale-105"
