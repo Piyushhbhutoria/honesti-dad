@@ -27,7 +27,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
     const text = `Send me an anonymous message! 💬`;
     
     // Try to open Instagram app directly for story sharing
-    const instagramUrl = `com.instagram://story-camera`;
+    const instagramUrl = `instagram://story-camera`;
     
     // For mobile devices, try to open Instagram app
     if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
