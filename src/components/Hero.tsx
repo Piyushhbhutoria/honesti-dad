@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Send, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +6,11 @@ import { useAuth } from "@/contexts/AuthContext";
 const Hero = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  // Don't render Hero section if user is authenticated
+  if (user) {
+    return null;
+  }
 
   return (
     <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
@@ -27,23 +31,13 @@ const Hero = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          {user ? (
-            <Button
-              onClick={() => navigate('/request')}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              <Send className="h-5 w-5 mr-2" />
-              Create Your Feedback Link
-            </Button>
-          ) : (
-            <Button
-              onClick={() => navigate('/auth')}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              <Send className="h-5 w-5 mr-2" />
-              Get Started - It's Free
-            </Button>
-          )}
+          <Button
+            onClick={() => navigate('/auth')}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            <Send className="h-5 w-5 mr-2" />
+            Get Started - It's Free
+          </Button>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mt-16">
