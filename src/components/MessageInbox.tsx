@@ -1,53 +1,70 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, Share2, Copy, Clock, Heart } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const MessageInbox = () => {
-  const [messages] = useState([
-    {
-      id: 1,
-      content: "You're doing an amazing job leading the team. Your positive attitude really makes a difference!",
-      timestamp: "2 hours ago",
-      isRead: false
-    },
-    {
-      id: 2,
-      content: "I think you could improve on giving more specific feedback during code reviews. Sometimes it's hard to understand what exactly needs to be changed.",
-      timestamp: "1 day ago",
-      isRead: true
-    },
-    {
-      id: 3,
-      content: "Your presentation skills have improved so much over the past year. Keep it up!",
-      timestamp: "3 days ago",
-      isRead: true
-    },
-    {
-      id: 4,
-      content: "You have great ideas, but sometimes you interrupt others during meetings. Just something to be aware of.",
-      timestamp: "1 week ago",
-      isRead: true
+  const [messages, setMessages] = useState<any[]>([]);
+  const [userLink, setUserLink] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // For demo purposes, try to find any user data in localStorage
+    // In a real app, this would be based on authenticated user
+    const allKeys = Object.keys(localStorage);
+    const userKeys = allKeys.filter(key => key.startsWith('user_'));
+    
+    if (userKeys.length > 0) {
+      const latestUserKey = userKeys[userKeys.length - 1];
+      const userData = localStorage.getItem(latestUserKey);
+      if (userData) {
+        const user = JSON.parse(userData);
+        setMessages(user.messages || []);
+        const userId = latestUserKey.replace('user_', '');
+        setUserLink(`${window.location.origin}/feedback/${userId}`);
+      }
     }
-  ]);
+  }, []);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText("https://honestbox.app/u/johndoe");
-    toast.success("Link copied to clipboard!");
+    if (userLink) {
+      navigator.clipboard.writeText(userLink);
+      toast.success("Link copied to clipboard!");
+    } else {
+      navigate('/request');
+    }
   };
 
   const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: "Send me an anonymous message",
-        url: "https://honestbox.app/u/johndoe"
-      });
+    if (userLink) {
+      if (navigator.share) {
+        navigator.share({
+          title: "Send me an anonymous message",
+          url: userLink
+        });
+      } else {
+        handleCopyLink();
+      }
     } else {
-      handleCopyLink();
+      navigate('/request');
     }
+  };
+
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+    
+    if (diffHours < 1) return "Just now";
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
   };
 
   return (
@@ -61,7 +78,9 @@ const MessageInbox = () => {
             Your Message Inbox
           </h2>
           <p className="text-lg text-gray-600 mb-8">
-            Here are the anonymous messages you've received
+            {messages.length > 0 
+              ? "Here are the anonymous messages you've received" 
+              : "No messages yet - share your link to start receiving feedback!"}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -70,7 +89,7 @@ const MessageInbox = () => {
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <Share2 className="h-4 w-4 mr-2" />
-              Share Your Link
+              {userLink ? "Share Your Link" : "Create Feedback Link"}
             </Button>
             <Button
               onClick={handleCopyLink}
@@ -78,7 +97,7 @@ const MessageInbox = () => {
               className="border-purple-200 text-purple-600 hover:bg-purple-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
             >
               <Copy className="h-4 w-4 mr-2" />
-              Copy Link
+              {userLink ? "Copy Link" : "Get Started"}
             </Button>
           </div>
         </div>
@@ -103,7 +122,7 @@ const MessageInbox = () => {
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Clock className="h-4 w-4 mr-1" />
-                    {message.timestamp}
+                    {formatTimestamp(message.timestamp)}
                   </div>
                 </div>
               </CardHeader>
@@ -134,7 +153,13 @@ const MessageInbox = () => {
             <div className="bg-gray-100 p-6 rounded-2xl max-w-md mx-auto">
               <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-600 mb-2">No messages yet</h3>
-              <p className="text-gray-500">Share your link to start receiving anonymous feedback!</p>
+              <p className="text-gray-500 mb-4">Share your link to start receiving anonymous feedback!</p>
+              <Button
+                onClick={() => navigate('/request')}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+              >
+                Create Your Link
+              </Button>
             </div>
           </div>
         )}
