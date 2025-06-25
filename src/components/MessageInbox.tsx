@@ -225,9 +225,6 @@ const MessageInbox = () => {
                     <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />
                     {thankedMessages.has(message.id) ? "Thanked!" : "Thank sender"}
                   </Button>
-                  <div className="text-xs text-gray-400">
-                    Message #{message.id.slice(0, 8)}
-                  </div>
                 </div>
               </CardContent>
             </Card>
