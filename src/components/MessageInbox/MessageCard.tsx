@@ -43,28 +43,28 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
 
   return (
     <Card 
-      className={`shadow-lg border-0 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] animate-fade-in`}
+      className={`pill-shadow border-0 bg-white spring-bounce hover:scale-[1.02] animate-fade-in rounded-3xl`}
       style={{ animationDelay: `${index * 100}ms` }}
     >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <MessageSquare className="h-5 w-5 text-purple-500" />
-            <CardTitle className="text-lg text-gray-700">Anonymous Message</CardTitle>
+            <MessageSquare className="h-5 w-5 text-[#A1E4B6]" />
+            <CardTitle className="text-lg text-[#333333]">Anonymous Message</CardTitle>
             {!message.is_read && (
-              <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200">
+              <Badge className="bg-[#F76C5E]/20 text-[#F76C5E] hover:bg-[#F76C5E]/30 rounded-full">
                 New
               </Badge>
             )}
           </div>
-          <div className="flex items-center text-sm text-gray-500">
+          <div className="flex items-center text-sm text-[#666666]">
             <Clock className="h-4 w-4 mr-1" />
             {formatTimestamp(message.created_at)}
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-700 leading-relaxed mb-4">
+        <p className="text-[#333333] leading-relaxed mb-4">
           {message.content}
         </p>
         <div className="flex items-center justify-between">
@@ -72,10 +72,10 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
             onClick={handleThankSender}
             variant="ghost"
             size="sm"
-            className={`transition-all duration-300 ${
+            className={`spring-bounce rounded-full ${
               thankedMessages.has(message.id)
-                ? "text-pink-600 bg-pink-50 hover:bg-pink-100"
-                : "text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                ? "text-[#F76C5E] bg-[#F76C5E]/10 hover:bg-[#F76C5E]/20"
+                : "text-[#A1E4B6] hover:text-[#A1E4B6] hover:bg-[#A1E4B6]/10"
             }`}
           >
             <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />
