@@ -1,8 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Shield, Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 overflow-hidden">
       {/* Background decoration */}
@@ -28,6 +31,7 @@ const Hero = () => {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in delay-500">
           <Button 
+            onClick={() => navigate('/request')}
             size="lg" 
             className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
