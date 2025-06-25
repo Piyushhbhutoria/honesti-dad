@@ -87,16 +87,16 @@ const Header = () => {
   if (loading) {
     return (
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-lg">
-              <MessageSquare className="h-6 w-6 text-white" />
+              <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               HonestBox
             </h1>
           </div>
-          <div className="animate-pulse bg-gray-200 h-10 w-32 rounded"></div>
+          <div className="animate-pulse bg-gray-200 h-8 w-24 sm:h-10 sm:w-32 rounded"></div>
         </div>
       </header>
     );
@@ -104,54 +104,57 @@ const Header = () => {
 
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
         <div 
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => navigate('/')}
         >
           <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-lg">
-            <MessageSquare className="h-6 w-6 text-white" />
+            <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             HonestBox
           </h1>
         </div>
         
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-1 sm:space-x-4">
           {user ? (
             // Authenticated user view
             <>
               <Button 
                 onClick={handleRequestFeedback}
                 variant="outline" 
-                className="border-purple-200 text-purple-600 hover:bg-purple-50"
+                size="sm"
+                className="border-purple-200 text-purple-600 hover:bg-purple-50 text-xs sm:text-sm px-2 sm:px-4"
               >
-                <Send className="h-4 w-4 mr-2" />
-                {existingRequest ? "View Feedback" : "Request Feedback"}
+                <Send className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">{existingRequest ? "View Feedback" : "Request Feedback"}</span>
+                <span className="sm:hidden">{existingRequest ? "View" : "Request"}</span>
               </Button>
               
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
                 <User className="h-4 w-4" />
-                <span>{profile?.name || user.email}</span>
+                <span className="max-w-32 truncate">{profile?.name || user.email}</span>
               </div>
               
               <Button
                 onClick={handleSignOut}
                 variant="ghost"
                 size="sm"
-                className="text-gray-600 hover:text-gray-800"
+                className="text-gray-600 hover:text-gray-800 px-2 sm:px-3"
               >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
+                <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Sign Out</span>
               </Button>
             </>
           ) : (
             // Non-authenticated user view
             <Button
               onClick={() => navigate('/auth')}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+              size="sm"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-xs sm:text-sm px-3 sm:px-4"
             >
-              <LogIn className="h-4 w-4 mr-2" />
+              <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               Sign In
             </Button>
           )}
