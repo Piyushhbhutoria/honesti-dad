@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +24,7 @@ const MessageInbox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [feedbackRequest, setFeedbackRequest] = useState<FeedbackRequest | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [thankedMessages, setThankedMessages] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -110,6 +110,16 @@ const MessageInbox = () => {
     return date.toLocaleDateString();
   };
 
+  const handleThankSender = (messageId: string) => {
+    if (thankedMessages.has(messageId)) {
+      toast.info("You've already thanked the sender for this message!");
+      return;
+    }
+    
+    setThankedMessages(prev => new Set(prev).add(messageId));
+    toast.success("Thank you sent! The sender will know you appreciated their message. 💜");
+  };
+
   if (isLoading) {
     return (
       <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
@@ -188,12 +198,17 @@ const MessageInbox = () => {
                 </p>
                 <div className="flex items-center justify-between">
                   <Button
+                    onClick={() => handleThankSender(message.id)}
                     variant="ghost"
                     size="sm"
-                    className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                    className={`transition-all duration-300 ${
+                      thankedMessages.has(message.id)
+                        ? "text-pink-600 bg-pink-50 hover:bg-pink-100"
+                        : "text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                    }`}
                   >
-                    <Heart className="h-4 w-4 mr-1" />
-                    Thank sender
+                    <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />
+                    {thankedMessages.has(message.id) ? "Thanked!" : "Thank sender"}
                   </Button>
                   <div className="text-xs text-gray-400">
                     Message #{message.id.slice(0, 8)}
