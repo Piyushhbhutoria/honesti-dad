@@ -25,7 +25,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
-            <Route path="/feedback/:userId" element={<SendFeedback />} />
+            <Route path="/feedback/:slug" element={<SendFeedback />} />
             <Route path="/" element={<Index />} />
             <Route path="/request" element={
               <ProtectedRoute>
