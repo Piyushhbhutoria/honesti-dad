@@ -46,9 +46,9 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
       className={`shadow-lg border-0 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] animate-fade-in`}
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <MessageSquare className="h-5 w-5 text-purple-500" />
             <CardTitle className="text-lg text-gray-700">Anonymous Message</CardTitle>
             {!message.is_read && (
@@ -63,11 +63,11 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <p className="text-gray-700 leading-relaxed mb-4">
+      <CardContent className="pt-0">
+        <p className="text-gray-700 leading-relaxed mb-6 text-base">
           {message.content}
         </p>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pt-2">
           <Button
             onClick={handleThankSender}
             variant="ghost"
