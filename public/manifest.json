@@ -1,0 +1,28 @@
+
+{
+  "name": "HonestBox - Anonymous Feedback Platform",
+  "short_name": "HonestBox",
+  "description": "Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/placeholder.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/placeholder.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "social"],
+  "lang": "en",
+  "dir": "ltr"
+}

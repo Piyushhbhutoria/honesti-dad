@@ -8,6 +8,19 @@
     <meta name="description" content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity." />
     <meta name="author" content="HonestBox" />
 
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#8b5cf6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="HonestBox" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/placeholder.svg" />
+
     <meta property="og:title" content="HonestBox - Anonymous Feedback Platform" />
     <meta property="og:description" content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity." />
     <meta property="og:type" content="website" />
@@ -21,5 +34,20 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
