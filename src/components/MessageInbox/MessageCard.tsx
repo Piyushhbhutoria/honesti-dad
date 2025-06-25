@@ -43,16 +43,16 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
 
   return (
     <Card 
-      className={`shadow-lg border-0 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] animate-fade-in`}
+      className={`ios-glass-card shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] animate-fade-in`}
       style={{ animationDelay: `${index * 100}ms` }}
     >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <MessageSquare className="h-5 w-5 text-purple-500" />
-            <CardTitle className="text-lg text-gray-700">Anonymous Message</CardTitle>
+            <MessageSquare className="h-5 w-5 text-[#5E5CE6]" />
+            <CardTitle className="text-lg text-[#111111]">Anonymous Message</CardTitle>
             {!message.is_read && (
-              <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200">
+              <Badge className="bg-[#5E5CE6] text-white hover:bg-[#4C4AE5]">
                 New
               </Badge>
             )}
@@ -64,7 +64,7 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-700 leading-relaxed mb-4">
+        <p className="text-[#111111] leading-relaxed mb-4">
           {message.content}
         </p>
         <div className="flex items-center justify-between">
@@ -75,7 +75,7 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
             className={`transition-all duration-300 ${
               thankedMessages.has(message.id)
                 ? "text-pink-600 bg-pink-50 hover:bg-pink-100"
-                : "text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                : "text-[#5E5CE6] hover:text-[#4C4AE5] hover:bg-[rgba(94,92,230,0.1)]"
             }`}
           >
             <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />

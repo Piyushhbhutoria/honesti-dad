@@ -1,5 +1,4 @@
 
-
 import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +59,7 @@ const MessageInbox = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-100">
+    <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="container mx-auto px-4 max-w-4xl">
         <InboxHeader
           messagesCount={messages.length}
@@ -90,4 +89,3 @@ const MessageInbox = () => {
 };
 
 export default MessageInbox;
-

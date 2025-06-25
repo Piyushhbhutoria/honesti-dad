@@ -1,5 +1,4 @@
 
-
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Share2, Copy } from "lucide-react";
 
@@ -19,10 +18,10 @@ interface InboxHeaderProps {
 const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: InboxHeaderProps) => {
   return (
     <div className="text-center mb-12">
-      <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-6">
-        <MessageSquare className="h-8 w-8 text-white" />
+      <div className="ios-glass-card p-3 rounded-2xl w-fit mx-auto mb-6">
+        <MessageSquare className="h-8 w-8 text-[#5E5CE6]" />
       </div>
-      <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+      <h2 className="text-4xl font-bold mb-4 text-[#111111]">
         Your Message Inbox
       </h2>
       <p className="text-lg text-gray-600 mb-8">
@@ -34,7 +33,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button
           onClick={onShare}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+          className="bg-[#5E5CE6] hover:bg-[#4C4AE5] text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 border-0"
         >
           <Share2 className="h-4 w-4 mr-2" />
           {feedbackRequest ? "Share Your Link" : "Create Feedback Link"}
@@ -42,7 +41,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
         <Button
           onClick={onCopyLink}
           variant="outline"
-          className="border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+          className="ios-glass-card hover:bg-[rgba(255,255,255,0.1)] text-[#111111] px-6 py-3 rounded-xl font-semibold transition-all duration-300 border-[rgba(255,255,255,0.1)]"
         >
           <Copy className="h-4 w-4 mr-2" />
           {feedbackRequest ? "Copy Link" : "Get Started"}
@@ -53,4 +52,3 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 };
 
 export default InboxHeader;
-
