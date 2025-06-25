@@ -1,3 +1,4 @@
+
 import { MessageSquare, Send, LogOut, User, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -85,40 +86,33 @@ const Header = () => {
 
   if (loading) {
     return (
-      <header className="bg-white/95 backdrop-blur-sm border-b border-[#E0E0E0] sticky top-0 z-50">
+      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="mint-gradient p-2 rounded-full pill-shadow">
+            <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-lg">
               <MessageSquare className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-[#333333]">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               HonestBox
             </h1>
           </div>
-          <div className="animate-pulse bg-[#E0E0E0] h-10 w-32 rounded-full"></div>
+          <div className="animate-pulse bg-gray-200 h-10 w-32 rounded"></div>
         </div>
       </header>
     );
   }
 
   return (
-    <header 
-      className="bg-white/95 backdrop-blur-sm border-b border-[#E0E0E0] sticky top-0 z-50"
-      style={{
-        WebkitAppearance: 'none',
-        WebkitBoxShadow: 'none',
-        backgroundColor: 'rgba(255, 255, 255, 0.95) !important'
-      }}
-    >
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div 
-          className="flex items-center space-x-2 cursor-pointer spring-bounce hover:scale-105"
+          className="flex items-center space-x-2 cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <div className="mint-gradient p-2 rounded-full pill-shadow">
+          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-lg">
             <MessageSquare className="h-6 w-6 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-[#333333]">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             HonestBox
           </h1>
         </div>
@@ -130,24 +124,13 @@ const Header = () => {
               <Button 
                 onClick={handleRequestFeedback}
                 variant="outline" 
-                className="border-[#E0E0E0] text-[#333333] hover:bg-[#A1E4B6]/10 rounded-full spring-bounce hover:scale-105"
-                style={{
-                  WebkitAppearance: 'none',
-                  WebkitBoxShadow: 'none',
-                  backgroundColor: 'white !important'
-                }}
+                className="border-purple-200 text-purple-600 hover:bg-purple-50"
               >
                 <Send className="h-4 w-4 mr-2" />
                 {existingRequest ? "View Feedback" : "Request Feedback"}
               </Button>
               
-              <div 
-                className="flex items-center space-x-2 text-sm text-[#666666]"
-                style={{
-                  WebkitAppearance: 'none',
-                  WebkitBoxShadow: 'none'
-                }}
-              >
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <User className="h-4 w-4" />
                 <span>{profile?.name || user.email}</span>
               </div>
@@ -156,11 +139,7 @@ const Header = () => {
                 onClick={handleSignOut}
                 variant="ghost"
                 size="sm"
-                className="text-[#666666] hover:text-[#333333] hover:bg-[#F76C5E]/10 rounded-full spring-bounce hover:scale-105"
-                style={{
-                  WebkitAppearance: 'none',
-                  WebkitBoxShadow: 'none'
-                }}
+                className="text-gray-600 hover:text-gray-800"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
@@ -170,11 +149,7 @@ const Header = () => {
             // Non-authenticated user view
             <Button
               onClick={() => navigate('/auth')}
-              className="mint-gradient hover:opacity-90 text-white rounded-full spring-bounce hover:scale-105 pill-shadow"
-              style={{
-                WebkitAppearance: 'none',
-                WebkitBoxShadow: 'none'
-              }}
+              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
             >
               <LogIn className="h-4 w-4 mr-2" />
               Sign In

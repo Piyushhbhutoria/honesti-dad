@@ -91,16 +91,16 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md pill-shadow border-0 bg-white/80 backdrop-blur-sm rounded-3xl">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 backdrop-blur-sm">
         <CardHeader className="text-center pb-4">
-          <div className="mint-gradient p-3 rounded-full w-fit mx-auto mb-4 pill-shadow">
+          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-4">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
-          <CardTitle className="text-2xl text-[#333333]">
+          <CardTitle className="text-2xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
-          <p className="text-[#666666]">
+          <p className="text-gray-600">
             {isLogin ? "Sign in to your HonestBox account" : "Join HonestBox to get anonymous feedback"}
           </p>
         </CardHeader>
@@ -108,7 +108,7 @@ const Auth = () => {
           <form onSubmit={isLogin ? handleLogin : handleSignup} className="space-y-4">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="name" className="flex items-center gap-2 text-[#333333]">
+                <Label htmlFor="name" className="flex items-center gap-2">
                   <User className="h-4 w-4" />
                   Full Name
                 </Label>
@@ -120,13 +120,12 @@ const Auth = () => {
                   placeholder="Enter your full name"
                   required={!isLogin}
                   disabled={isLoading}
-                  className="rounded-full"
                 />
               </div>
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email" className="flex items-center gap-2 text-[#333333]">
+              <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
                 Email
               </Label>
@@ -138,12 +137,11 @@ const Auth = () => {
                 placeholder="Enter your email"
                 required
                 disabled={isLoading}
-                className="rounded-full"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className="flex items-center gap-2 text-[#333333]">
+              <Label htmlFor="password" className="flex items-center gap-2">
                 <Lock className="h-4 w-4" />
                 Password
               </Label>
@@ -156,13 +154,12 @@ const Auth = () => {
                 required
                 disabled={isLoading}
                 minLength={6}
-                className="rounded-full"
               />
             </div>
             
             <Button
               type="submit"
-              className="w-full mint-gradient hover:opacity-90 text-white py-3 rounded-full font-semibold pill-shadow spring-bounce hover:scale-105"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -177,7 +174,7 @@ const Auth = () => {
           </form>
           
           <div className="mt-6 text-center">
-            <p className="text-[#666666]">
+            <p className="text-gray-600">
               {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
                 type="button"
@@ -187,7 +184,7 @@ const Auth = () => {
                   setPassword("");
                   setName("");
                 }}
-                className="text-[#A1E4B6] hover:text-[#7DD3A0] font-semibold hover:underline spring-bounce"
+                className="text-purple-600 hover:text-purple-700 font-semibold hover:underline"
                 disabled={isLoading}
               >
                 {isLogin ? "Sign up" : "Sign in"}

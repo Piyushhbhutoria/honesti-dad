@@ -46,7 +46,7 @@ const MessageInbox = () => {
 
   const handleThankSender = (messageId: string) => {
     setThankedMessages(prev => new Set(prev).add(messageId));
-    toast.success("Thank you sent! The sender will know you appreciated their message. 💚");
+    toast.success("Thank you sent! The sender will know you appreciated their message. 💜");
   };
 
   if (authLoading || isLoading) {
@@ -59,7 +59,7 @@ const MessageInbox = () => {
   }
 
   return (
-    <section className="py-20 bg-[#FAFAFA]">
+    <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 max-w-4xl">
         <InboxHeader
           messagesCount={messages.length}
