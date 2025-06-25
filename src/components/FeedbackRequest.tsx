@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,11 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Share2, Copy, MessageSquare, Link } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
 const FeedbackRequest = () => {
   const [userName, setUserName] = useState("");
   const [uniqueSlug, setUniqueSlug] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const generateFeedbackLink = async () => {
     if (!userName.trim()) {
@@ -186,7 +187,7 @@ const FeedbackRequest = () => {
                     All responses will be completely anonymous.
                   </p>
                   <Button
-                    onClick={() => window.location.href = '/'}
+                    onClick={() => navigate('/')}
                     variant="ghost"
                     className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
                   >
