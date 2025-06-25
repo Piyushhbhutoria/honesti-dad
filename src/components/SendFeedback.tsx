@@ -83,21 +83,21 @@ const SendFeedback = () => {
 
   if (!isValidUser) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm max-w-md mx-4">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+        <Card className="pill-shadow border-0 bg-white/80 backdrop-blur-sm max-w-md mx-4 rounded-3xl">
           <CardHeader className="text-center">
-            <div className="bg-red-100 p-3 rounded-2xl w-fit mx-auto mb-4">
-              <MessageSquare className="h-8 w-8 text-red-600" />
+            <div className="bg-[#F76C5E]/20 p-3 rounded-full w-fit mx-auto mb-4">
+              <MessageSquare className="h-8 w-8 text-[#F76C5E]" />
             </div>
-            <CardTitle className="text-gray-700">Invalid Link</CardTitle>
+            <CardTitle className="text-[#333333]">Invalid Link</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="text-gray-600 mb-6">
+            <p className="text-[#666666] mb-6">
               This feedback link is not valid or has expired.
             </p>
             <Button
               onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+              className="mint-gradient hover:opacity-90 text-white rounded-full spring-bounce hover:scale-105"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Go Home
@@ -109,23 +109,23 @@ const SendFeedback = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-[#FAFAFA]">
       <div className="container mx-auto px-4 py-20 max-w-2xl">
         <div className="text-center mb-12">
-          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-6">
+          <div className="mint-gradient p-3 rounded-full w-fit mx-auto mb-6 pill-shadow">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 text-[#333333]">
             Send Anonymous Feedback
           </h1>
-          <p className="text-lg text-gray-600">
-            Share your honest thoughts with <span className="font-semibold text-purple-600">{userName || 'this person'}</span> anonymously
+          <p className="text-lg text-[#666666]">
+            Share your honest thoughts with <span className="font-semibold text-[#A1E4B6]">{userName || 'this person'}</span> anonymously
           </p>
         </div>
 
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+        <Card className="pill-shadow border-0 bg-white/80 backdrop-blur-sm rounded-3xl">
           <CardHeader className="pb-4">
-            <CardTitle className="text-center text-gray-700">
+            <CardTitle className="text-center text-[#333333]">
               To: {userName || 'Anonymous'}
             </CardTitle>
           </CardHeader>
@@ -136,10 +136,10 @@ const SendFeedback = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Write your anonymous message here... Be honest, be kind."
-                  className="min-h-32 resize-none border-gray-200 focus:border-purple-400 focus:ring-purple-400"
+                  className="min-h-32 resize-none border-[#E0E0E0] focus:border-[#A1E4B6] focus:ring-[#A1E4B6] rounded-3xl"
                   maxLength={500}
                 />
-                <div className="text-right text-sm text-gray-500 mt-2">
+                <div className="text-right text-sm text-[#666666] mt-2">
                   {message.length}/500 characters
                 </div>
               </div>
@@ -147,7 +147,7 @@ const SendFeedback = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting || !message.trim()}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+                className="w-full mint-gradient hover:opacity-90 text-white py-3 rounded-full text-lg font-semibold pill-shadow spring-bounce hover:scale-105 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <div className="flex items-center">
@@ -166,13 +166,13 @@ const SendFeedback = () => {
         </Card>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-[#666666] mb-4">
             Your message will be delivered anonymously. The recipient will not know who sent it.
           </p>
           <Button
             onClick={() => navigate('/')}
             variant="ghost"
-            className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+            className="text-[#A1E4B6] hover:text-[#7DD3A0] hover:bg-[#A1E4B6]/10 rounded-full spring-bounce hover:scale-105"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Home
