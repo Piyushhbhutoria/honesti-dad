@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, MessageSquare, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const SendFeedback = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -14,17 +15,34 @@ const SendFeedback = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [isValidUser, setIsValidUser] = useState(true);
+  const [feedbackRequestId, setFeedbackRequestId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (userId) {
-      const userData = localStorage.getItem(`user_${userId}`);
-      if (userData) {
-        const user = JSON.parse(userData);
-        setUserName(user.name);
-      } else {
+    const checkFeedbackRequest = async () => {
+      if (!userId) return;
+
+      try {
+        const { data, error } = await supabase
+          .from('feedback_requests')
+          .select('id, name, is_active')
+          .eq('unique_slug', userId)
+          .eq('is_active', true)
+          .single();
+
+        if (error || !data) {
+          setIsValidUser(false);
+          return;
+        }
+
+        setUserName(data.name);
+        setFeedbackRequestId(data.id);
+      } catch (error) {
+        console.error('Error checking feedback request:', error);
         setIsValidUser(false);
       }
-    }
+    };
+
+    checkFeedbackRequest();
   }, [userId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,37 +52,33 @@ const SendFeedback = () => {
       return;
     }
 
-    if (!userId) return;
+    if (!feedbackRequestId) return;
 
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      const { error } = await supabase
+        .from('anonymous_messages')
+        .insert({
+          feedback_request_id: feedbackRequestId,
+          content: message.trim()
+        });
 
-    // Store the message in localStorage
-    const userData = localStorage.getItem(`user_${userId}`);
-    if (userData) {
-      const user = JSON.parse(userData);
-      const newMessage = {
-        id: Date.now(),
-        content: message,
-        timestamp: new Date().toISOString(),
-        isRead: false
-      };
+      if (error) throw error;
+
+      toast.success("Your anonymous message has been sent! 🎉");
+      setMessage("");
       
-      user.messages = user.messages || [];
-      user.messages.unshift(newMessage);
-      localStorage.setItem(`user_${userId}`, JSON.stringify(user));
+      // Redirect after successful submission
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    toast.success("Your anonymous message has been sent! 🎉");
-    setMessage("");
-    setIsSubmitting(false);
-    
-    // Redirect after successful submission
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
   };
 
   if (!isValidUser) {

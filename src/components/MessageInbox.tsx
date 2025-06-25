@@ -6,33 +6,75 @@ import { Badge } from "@/components/ui/badge";
 import { MessageSquare, Share2, Copy, Clock, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+
+interface Message {
+  id: string;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+}
+
+interface FeedbackRequest {
+  id: string;
+  unique_slug: string;
+  name: string;
+}
 
 const MessageInbox = () => {
-  const [messages, setMessages] = useState<any[]>([]);
-  const [userLink, setUserLink] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [feedbackRequest, setFeedbackRequest] = useState<FeedbackRequest | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // For demo purposes, try to find any user data in localStorage
-    // In a real app, this would be based on authenticated user
-    const allKeys = Object.keys(localStorage);
-    const userKeys = allKeys.filter(key => key.startsWith('user_'));
-    
-    if (userKeys.length > 0) {
-      const latestUserKey = userKeys[userKeys.length - 1];
-      const userData = localStorage.getItem(latestUserKey);
-      if (userData) {
-        const user = JSON.parse(userData);
-        setMessages(user.messages || []);
-        const userId = latestUserKey.replace('user_', '');
-        setUserLink(`${window.location.origin}/feedback/${userId}`);
+    const loadInboxData = async () => {
+      try {
+        // Get the most recent feedback request for demo purposes
+        // In a real app, this would be based on the authenticated user
+        const { data: requests, error: requestError } = await supabase
+          .from('feedback_requests')
+          .select('id, unique_slug, name')
+          .eq('is_active', true)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        if (requestError) throw requestError;
+
+        if (requests && requests.length > 0) {
+          const request = requests[0];
+          setFeedbackRequest(request);
+
+          // Load messages for this feedback request
+          const { data: messagesData, error: messagesError } = await supabase
+            .from('anonymous_messages')
+            .select('id, content, is_read, created_at')
+            .eq('feedback_request_id', request.id)
+            .order('created_at', { ascending: false });
+
+          if (messagesError) throw messagesError;
+
+          setMessages(messagesData || []);
+        }
+      } catch (error) {
+        console.error('Error loading inbox data:', error);
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+
+    loadInboxData();
   }, []);
 
+  const getFeedbackUrl = () => {
+    if (!feedbackRequest) return null;
+    return `${window.location.origin}/feedback/${feedbackRequest.unique_slug}`;
+  };
+
   const handleCopyLink = () => {
-    if (userLink) {
-      navigator.clipboard.writeText(userLink);
+    const url = getFeedbackUrl();
+    if (url) {
+      navigator.clipboard.writeText(url);
       toast.success("Link copied to clipboard!");
     } else {
       navigate('/request');
@@ -40,11 +82,12 @@ const MessageInbox = () => {
   };
 
   const handleShare = () => {
-    if (userLink) {
+    const url = getFeedbackUrl();
+    if (url) {
       if (navigator.share) {
         navigator.share({
           title: "Send me an anonymous message",
-          url: userLink
+          url: url
         });
       } else {
         handleCopyLink();
@@ -66,6 +109,19 @@ const MessageInbox = () => {
     if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
     return date.toLocaleDateString();
   };
+
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading your inbox...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
@@ -89,7 +145,7 @@ const MessageInbox = () => {
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <Share2 className="h-4 w-4 mr-2" />
-              {userLink ? "Share Your Link" : "Create Feedback Link"}
+              {feedbackRequest ? "Share Your Link" : "Create Feedback Link"}
             </Button>
             <Button
               onClick={handleCopyLink}
@@ -97,7 +153,7 @@ const MessageInbox = () => {
               className="border-purple-200 text-purple-600 hover:bg-purple-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
             >
               <Copy className="h-4 w-4 mr-2" />
-              {userLink ? "Copy Link" : "Get Started"}
+              {feedbackRequest ? "Copy Link" : "Get Started"}
             </Button>
           </div>
         </div>
@@ -114,7 +170,7 @@ const MessageInbox = () => {
                   <div className="flex items-center space-x-2">
                     <MessageSquare className="h-5 w-5 text-purple-500" />
                     <CardTitle className="text-lg text-gray-700">Anonymous Message</CardTitle>
-                    {!message.isRead && (
+                    {!message.is_read && (
                       <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200">
                         New
                       </Badge>
@@ -122,7 +178,7 @@ const MessageInbox = () => {
                   </div>
                   <div className="flex items-center text-sm text-gray-500">
                     <Clock className="h-4 w-4 mr-1" />
-                    {formatTimestamp(message.timestamp)}
+                    {formatTimestamp(message.created_at)}
                   </div>
                 </div>
               </CardHeader>
@@ -140,7 +196,7 @@ const MessageInbox = () => {
                     Thank sender
                   </Button>
                   <div className="text-xs text-gray-400">
-                    Message #{message.id}
+                    Message #{message.id.slice(0, 8)}
                   </div>
                 </div>
               </CardContent>

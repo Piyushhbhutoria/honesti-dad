@@ -5,34 +5,60 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Share2, Copy, MessageSquare, Link } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const FeedbackRequest = () => {
   const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState<string | null>(null);
+  const [uniqueSlug, setUniqueSlug] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const generateFeedbackLink = () => {
+  const generateFeedbackLink = async () => {
     if (!userName.trim()) {
       toast.error("Please enter your name first");
       return;
     }
     
-    // Generate a simple unique ID based on name and timestamp
-    const uniqueId = userName.toLowerCase().replace(/\s+/g, '') + Date.now();
-    setUserId(uniqueId);
+    setIsLoading(true);
     
-    // Store user data in localStorage for demo purposes
-    localStorage.setItem(`user_${uniqueId}`, JSON.stringify({
-      name: userName,
-      createdAt: new Date().toISOString(),
-      messages: []
-    }));
-    
-    toast.success("Your feedback link has been generated! 🎉");
+    try {
+      // Create user first
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .insert({ name: userName.trim() })
+        .select()
+        .single();
+
+      if (userError) throw userError;
+
+      // Generate unique slug
+      const slug = userName.toLowerCase().replace(/\s+/g, '') + Date.now();
+
+      // Create feedback request
+      const { data: requestData, error: requestError } = await supabase
+        .from('feedback_requests')
+        .insert({
+          user_id: userData.id,
+          unique_slug: slug,
+          name: userName.trim()
+        })
+        .select()
+        .single();
+
+      if (requestError) throw requestError;
+
+      setUniqueSlug(slug);
+      toast.success("Your feedback link has been generated! 🎉");
+    } catch (error) {
+      console.error('Error creating feedback request:', error);
+      toast.error("Failed to generate link. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getFeedbackUrl = () => {
-    if (!userId) return "";
-    return `${window.location.origin}/feedback/${userId}`;
+    if (!uniqueSlug) return "";
+    return `${window.location.origin}/feedback/${uniqueSlug}`;
   };
 
   const handleCopyLink = () => {
@@ -69,7 +95,7 @@ const FeedbackRequest = () => {
           </p>
         </div>
 
-        {!userId ? (
+        {!uniqueSlug ? (
           <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-4">
               <CardTitle className="text-center text-gray-700 flex items-center justify-center gap-2">
@@ -89,16 +115,26 @@ const FeedbackRequest = () => {
                     onChange={(e) => setUserName(e.target.value)}
                     placeholder="Enter your name..."
                     className="text-lg py-3"
+                    disabled={isLoading}
                   />
                 </div>
                 
                 <Button
                   onClick={generateFeedbackLink}
-                  disabled={!userName.trim()}
+                  disabled={!userName.trim() || isLoading}
                   className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  <Link className="h-5 w-5 mr-2" />
-                  Generate Feedback Link
+                  {isLoading ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Generating...
+                    </div>
+                  ) : (
+                    <>
+                      <Link className="h-5 w-5 mr-2" />
+                      Generate Feedback Link
+                    </>
+                  )}
                 </Button>
               </div>
             </CardContent>

@@ -9,7 +9,94 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      anonymous_messages: {
+        Row: {
+          content: string
+          created_at: string
+          feedback_request_id: string
+          id: string
+          is_read: boolean
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          feedback_request_id: string
+          id?: string
+          is_read?: boolean
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          feedback_request_id?: string
+          id?: string
+          is_read?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anonymous_messages_feedback_request_id_fkey"
+            columns: ["feedback_request_id"]
+            isOneToOne: false
+            referencedRelation: "feedback_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feedback_requests: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          unique_slug: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          unique_slug: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          unique_slug?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
