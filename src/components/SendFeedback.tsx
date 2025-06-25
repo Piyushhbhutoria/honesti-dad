@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -135,7 +136,7 @@ const SendFeedback = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Write your anonymous message here... Be honest, be kind."
-                  className="min-h-32 resize-none border-[#E0E0E0] focus:border-[#A1E4B6] focus:ring-[#A1E4B6] rounded-3xl bg-white [-webkit-appearance:none] [-webkit-box-shadow:0_0_0_1000px_white_inset] [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset] [&:-webkit-autofill]:[-webkit-text-fill-color:#333333]"
+                  className="min-h-32 resize-none rounded-3xl"
                   maxLength={500}
                 />
                 <div className="text-right text-sm text-[#666666] mt-2">

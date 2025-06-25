@@ -120,7 +120,7 @@ const Auth = () => {
                   placeholder="Enter your full name"
                   required={!isLogin}
                   disabled={isLoading}
-                  className="rounded-full border-[#E0E0E0] focus:border-[#A1E4B6] focus:ring-[#A1E4B6]"
+                  className="rounded-full"
                 />
               </div>
             )}
@@ -138,7 +138,7 @@ const Auth = () => {
                 placeholder="Enter your email"
                 required
                 disabled={isLoading}
-                className="rounded-full border-[#E0E0E0] focus:border-[#A1E4B6] focus:ring-[#A1E4B6]"
+                className="rounded-full"
               />
             </div>
             
@@ -156,7 +156,7 @@ const Auth = () => {
                 required
                 disabled={isLoading}
                 minLength={6}
-                className="rounded-full border-[#E0E0E0] focus:border-[#A1E4B6] focus:ring-[#A1E4B6]"
+                className="rounded-full"
               />
             </div>
             
