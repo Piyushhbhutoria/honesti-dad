@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,12 +6,22 @@ import { Share2, Copy, MessageSquare, Link } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const FeedbackRequest = () => {
   const [userName, setUserName] = useState("");
   const [uniqueSlug, setUniqueSlug] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    // Set default name from user metadata or email
+    if (user) {
+      const defaultName = user.user_metadata?.name || user.email?.split('@')[0] || '';
+      setUserName(defaultName);
+    }
+  }, [user]);
 
   const generateFeedbackLink = async () => {
     if (!userName.trim()) {
@@ -20,26 +29,22 @@ const FeedbackRequest = () => {
       return;
     }
     
+    if (!user) {
+      toast.error("You must be logged in to create a feedback request");
+      return;
+    }
+    
     setIsLoading(true);
     
     try {
-      // Create profile first
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .insert({ name: userName.trim() })
-        .select()
-        .single();
-
-      if (profileError) throw profileError;
-
       // Generate unique slug
       const slug = userName.toLowerCase().replace(/\s+/g, '') + Date.now();
 
-      // Create feedback request
+      // Create feedback request using authenticated user ID
       const { data: requestData, error: requestError } = await supabase
         .from('feedback_requests')
         .insert({
-          user_id: profileData.id,
+          user_id: user.id,
           unique_slug: slug,
           name: userName.trim()
         })

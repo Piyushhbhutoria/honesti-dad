@@ -6,6 +6,7 @@ import { MessageSquare, Share2, Copy, Clock, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Message {
   id: string;
@@ -26,14 +27,18 @@ const MessageInbox = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [thankedMessages, setThankedMessages] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadInboxData = async () => {
+      if (!user) return;
+      
       try {
-        // Get the most recent feedback request for demo purposes
+        // Get the most recent feedback request for the authenticated user
         const { data: requests, error: requestError } = await supabase
           .from('feedback_requests')
           .select('id, unique_slug, name')
+          .eq('user_id', user.id)
           .eq('is_active', true)
           .order('created_at', { ascending: false })
           .limit(1);
@@ -63,7 +68,7 @@ const MessageInbox = () => {
     };
 
     loadInboxData();
-  }, []);
+  }, [user]);
 
   const getFeedbackUrl = () => {
     if (!feedbackRequest) return null;
