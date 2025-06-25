@@ -102,7 +102,14 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm border-b border-[#E0E0E0] sticky top-0 z-50">
+    <header 
+      className="bg-white/95 backdrop-blur-sm border-b border-[#E0E0E0] sticky top-0 z-50"
+      style={{
+        WebkitAppearance: 'none',
+        WebkitBoxShadow: 'none',
+        backgroundColor: 'rgba(255, 255, 255, 0.95) !important'
+      }}
+    >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div 
           className="flex items-center space-x-2 cursor-pointer spring-bounce hover:scale-105"
@@ -124,12 +131,23 @@ const Header = () => {
                 onClick={handleRequestFeedback}
                 variant="outline" 
                 className="border-[#E0E0E0] text-[#333333] hover:bg-[#A1E4B6]/10 rounded-full spring-bounce hover:scale-105"
+                style={{
+                  WebkitAppearance: 'none',
+                  WebkitBoxShadow: 'none',
+                  backgroundColor: 'white !important'
+                }}
               >
                 <Send className="h-4 w-4 mr-2" />
                 {existingRequest ? "View Feedback" : "Request Feedback"}
               </Button>
               
-              <div className="flex items-center space-x-2 text-sm text-[#666666]">
+              <div 
+                className="flex items-center space-x-2 text-sm text-[#666666]"
+                style={{
+                  WebkitAppearance: 'none',
+                  WebkitBoxShadow: 'none'
+                }}
+              >
                 <User className="h-4 w-4" />
                 <span>{profile?.name || user.email}</span>
               </div>
@@ -139,6 +157,10 @@ const Header = () => {
                 variant="ghost"
                 size="sm"
                 className="text-[#666666] hover:text-[#333333] hover:bg-[#F76C5E]/10 rounded-full spring-bounce hover:scale-105"
+                style={{
+                  WebkitAppearance: 'none',
+                  WebkitBoxShadow: 'none'
+                }}
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
@@ -149,6 +171,10 @@ const Header = () => {
             <Button
               onClick={() => navigate('/auth')}
               className="mint-gradient hover:opacity-90 text-white rounded-full spring-bounce hover:scale-105 pill-shadow"
+              style={{
+                WebkitAppearance: 'none',
+                WebkitBoxShadow: 'none'
+              }}
             >
               <LogIn className="h-4 w-4 mr-2" />
               Sign In
