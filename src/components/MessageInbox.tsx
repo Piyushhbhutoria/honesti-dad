@@ -59,7 +59,7 @@ const MessageInbox = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+    <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 max-w-4xl">
         <InboxHeader
           messagesCount={messages.length}
