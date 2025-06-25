@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Share2, Copy, Clock, Heart, LogIn } from "lucide-react";
+import { MessageSquare, Share2, Copy, Clock, Heart } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -142,40 +143,9 @@ const MessageInbox = () => {
     );
   }
 
-  // Show sign-in prompt for non-authenticated users
+  // Hide the section completely when no active session
   if (!user) {
-    return (
-      <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center">
-            <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-6">
-              <MessageSquare className="h-8 w-8 text-white" />
-            </div>
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Your Personal Inbox
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
-              Sign in to create your feedback link and view anonymous messages sent to you
-            </p>
-            
-            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg max-w-md mx-auto">
-              <MessageSquare className="h-12 w-12 text-purple-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">Get Started</h3>
-              <p className="text-gray-600 mb-6">
-                Create an account to generate your personal feedback link and start receiving anonymous messages
-              </p>
-              <Button
-                onClick={() => navigate('/auth')}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <LogIn className="h-4 w-4 mr-2" />
-                Sign In to Continue
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
+    return null;
   }
 
   return (
