@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Copy } from "lucide-react";
 import { Instagram } from "lucide-react";
+import { toast } from "sonner";
 
 interface FeedbackRequest {
   id: string;
@@ -24,26 +25,30 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
     }
 
     const feedbackUrl = `${window.location.origin}/feedback/${feedbackRequest.unique_slug}`;
-    const text = `Send me an anonymous message! 💬`;
+    const shareText = `Send me an anonymous message! 💬\n\n${feedbackUrl}`;
     
-    // Try to open Instagram app directly for story sharing
-    const instagramUrl = `instagram://story-camera`;
+    // Copy the text and link to clipboard first
+    navigator.clipboard.writeText(shareText).then(() => {
+      toast.success("Message and link copied! Now opening Instagram...", {
+        description: "Paste this in your Instagram story after it opens"
+      });
+    });
+
+    // Detect if user is on mobile
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    // For mobile devices, try to open Instagram app
-    if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
-      // Create a temporary link element to attempt opening Instagram
-      const link = document.createElement('a');
-      link.href = instagramUrl;
-      link.click();
+    if (isMobile) {
+      // Try to open Instagram app directly
+      const instagramUrl = `instagram://story-camera`;
+      window.location.href = instagramUrl;
       
-      // Also copy the link and text to clipboard for easy pasting in Instagram
-      const shareText = `${text}\n\n${feedbackUrl}`;
-      navigator.clipboard.writeText(shareText);
+      // Fallback to web version if app doesn't open
+      setTimeout(() => {
+        window.open('https://www.instagram.com/', '_blank');
+      }, 2000);
     } else {
-      // For desktop, fallback to web Instagram or copy link
+      // For desktop, open Instagram web directly
       window.open('https://www.instagram.com/', '_blank');
-      const shareText = `${text}\n\n${feedbackUrl}`;
-      navigator.clipboard.writeText(shareText);
     }
   };
 
