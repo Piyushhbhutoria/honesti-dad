@@ -136,7 +136,18 @@ const SendFeedback = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Write your anonymous message here... Be honest, be kind."
-                  className="min-h-32 resize-none rounded-3xl bg-white text-[#333333] placeholder:text-[#999999] border border-[#E0E0E0] focus:border-[#A1E4B6] focus:ring-1 focus:ring-[#A1E4B6] focus:outline-none [-webkit-appearance:none] [-webkit-box-shadow:none] [&:-webkit-autofill]:[-webkit-box-shadow:0_0_0_1000px_white_inset] [&:-webkit-autofill]:[-webkit-text-fill-color:#333333] [&:-webkit-autofill:focus]:[-webkit-box-shadow:0_0_0_1000px_white_inset] [&:-webkit-autofill:hover]:[-webkit-box-shadow:0_0_0_1000px_white_inset] [&:-webkit-autofill:active]:[-webkit-box-shadow:0_0_0_1000px_white_inset]"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  className="min-h-32 resize-none rounded-3xl bg-white border border-gray-300 focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none !important"
+                  style={{
+                    WebkitAppearance: 'none',
+                    WebkitBoxShadow: '0 0 0 1000px white inset !important',
+                    WebkitTextFillColor: '#333333 !important',
+                    backgroundColor: 'white !important',
+                    color: '#333333 !important'
+                  }}
                   maxLength={500}
                 />
                 <div className="text-right text-sm text-[#666666] mt-2">
