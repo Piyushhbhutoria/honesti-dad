@@ -64,12 +64,24 @@ export default {
 				},
 				glass: {
 					light: 'var(--glass-light)',
+					input: 'var(--glass-input)',
 					border: 'var(--glass-border)',
 				},
-				indigo: {
-					500: '#5E5CE6',
-					600: '#4F46E5',
-					400: '#7C73E6',
+				teal: {
+					500: '#14B8A6',
+					600: '#0D9488',
+					400: '#2DD4BF',
+					50: '#F0FDFA',
+					100: '#CCFBF1',
+					950: '#042F2E',
+				},
+				emerald: {
+					500: '#10B981',
+					600: '#059669',
+					400: '#34D399',
+					50: '#ECFDF5',
+					100: '#D1FAE5',
+					950: '#022C22',
 				}
 			},
 			borderRadius: {
@@ -78,13 +90,13 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			backdropBlur: {
-				'glass': '20px',
+				'glass': '16px',
 				'intense': '40px',
 			},
 			boxShadow: {
 				'glass': 'var(--glass-shadow), var(--inner-shadow)',
 				'glass-hover': '0 12px 40px rgba(0, 0, 0, 0.15), var(--inner-shadow)',
-				'inner-light': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+				'inner-light': 'inset 0 1px 0 rgba(255, 255, 255, 0.2)',
 				'inner-dark': 'inset 0 1px 0 rgba(255, 255, 255, 0.05)',
 			},
 			keyframes: {

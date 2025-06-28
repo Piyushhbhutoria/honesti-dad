@@ -8,7 +8,9 @@ This project uses a **Frosted Glass** design system with iOS-style elegance. All
 
 ### Color Palette
 
-- **Primary Accent**: Indigo (#5E5CE6) - Use `indigo-500`, `indigo-600` for primary actions
+- **Primary Accent**:
+  - Light theme: Teal (#14B8A6) - Use `teal-500`, `teal-600` for primary actions
+  - Dark theme: Emerald (#10B981) - Use `emerald-500`, `emerald-600` for primary actions
 - **Glass Background**: `rgba(255,255,255,0.05)` - Use `bg-glass-light` utility class
 - **Text Colors**:
   - Light theme: `#111111` (`text-foreground`)
@@ -31,8 +33,8 @@ This project uses a **Frosted Glass** design system with iOS-style elegance. All
 
 ```css
 /* Main page backgrounds */
-bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 
-dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950
+bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 
+dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950
 ```
 
 #### 2. Animated Background Elements
@@ -62,7 +64,7 @@ Always include subtle animated background blobs:
 #### 5. Primary Buttons
 
 ```tsx
-<Button className="glass-button bg-indigo-500 hover:bg-indigo-600 text-white transition-all duration-300 transform hover:scale-105">
+<Button variant="gradient-primary" className="transition-all duration-300 transform hover:scale-105">
 ```
 
 #### 6. Icon Backgrounds

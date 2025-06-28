@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { CheckCircle, Copy, Link, MessageSquare, Share2 } from "lucide-react";
+import { CheckCircle, Copy, Link, MessageSquare, Moon, Share2, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ const FeedbackRequest = () => {
   const [userName, setUserName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, theme, toggleTheme } = useAuth();
 
   // Check for existing feedback request
   const { data: existingRequest, isLoading: checkingExisting } = useQuery({
@@ -114,10 +114,10 @@ const FeedbackRequest = () => {
 
   if (checkingExisting) {
     return (
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 min-h-screen">
+      <section className="py-20 bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 min-h-screen">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
             <p className="mt-4 text-foreground/70">Loading...</p>
           </div>
         </div>
@@ -126,20 +126,36 @@ const FeedbackRequest = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 min-h-screen relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 min-h-screen relative overflow-hidden">
+      {/* Theme Toggle Button */}
+      <div className="fixed top-6 right-6 z-50">
+        <Button
+          onClick={toggleTheme}
+          variant="ghost"
+          size="sm"
+          className="glass-card bg-glass-light border-glass-border p-3 shadow-glass hover:shadow-glass-hover transition-all duration-300"
+        >
+          {theme === 'light' ? (
+            <Moon className="h-5 w-5" />
+          ) : (
+            <Sun className="h-5 w-5" />
+          )}
+        </Button>
+      </div>
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       <div className="container mx-auto px-4 max-w-2xl relative z-10">
         <div className="text-center mb-12">
-          <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-6 shadow-glass">
+          <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-6 shadow-glass">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             {existingRequest ? "Your Feedback Link" : "Request Anonymous Feedback"}
           </h1>
           <p className="text-lg text-foreground/70">
@@ -162,9 +178,9 @@ const FeedbackRequest = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="glass-card bg-indigo-500/5 p-4 border-indigo-500/10">
+                  <div className="glass-card bg-primary/5 p-4 border-primary/10">
                     <p className="text-sm text-foreground/60 mb-2">Share this link:</p>
-                    <p className="text-indigo-600 dark:text-indigo-400 font-mono text-sm break-all">
+                    <p className="text-primary font-mono text-sm break-all">
                       {getFeedbackUrl()}
                     </p>
                   </div>
@@ -172,14 +188,15 @@ const FeedbackRequest = () => {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button
                       onClick={handleShare}
-                      className="flex-1 glass-button bg-indigo-500 hover:bg-indigo-600 text-white py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
+                      variant="gradient-primary"
+                      className="flex-1 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
                     >
                       <Share2 className="h-4 w-4 mr-2" />
                       Share Link
                     </Button>
                     <Button
                       onClick={handleCopyLink}
-                      variant="glass-indigo"
+                      variant="glass-primary"
                       className="flex-1 py-3 font-semibold transition-all duration-300 transform hover:scale-105"
                     >
                       <Copy className="h-4 w-4 mr-2" />
@@ -201,7 +218,7 @@ const FeedbackRequest = () => {
                   <Button
                     onClick={() => navigate('/')}
                     variant="glass"
-                    className="text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/20"
+                    className="text-primary hover:bg-primary/20"
                   >
                     View My Inbox
                   </Button>
@@ -229,7 +246,7 @@ const FeedbackRequest = () => {
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     placeholder="Enter your name..."
-                    className="text-lg py-3 glass-card bg-glass-light border-glass-border"
+                    className="text-lg py-3 glass-input"
                     disabled={isLoading}
                   />
                 </div>
@@ -237,7 +254,8 @@ const FeedbackRequest = () => {
                 <Button
                   onClick={generateFeedbackLink}
                   disabled={!userName.trim() || isLoading}
-                  className="w-full glass-button bg-indigo-500 hover:bg-indigo-600 text-white py-3 text-lg font-semibold border-0 transition-all duration-300 transform hover:scale-105"
+                  variant="gradient-primary"
+                  className="w-full py-3 text-lg font-semibold border-0 transition-all duration-300 transform hover:scale-105"
                 >
                   {isLoading ? (
                     <div className="flex items-center">

@@ -56,7 +56,7 @@ const TestReset = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-glass border-0">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Test Reset Password</CardTitle>

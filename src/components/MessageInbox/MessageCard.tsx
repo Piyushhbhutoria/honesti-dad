@@ -49,10 +49,10 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <MessageSquare className="h-5 w-5 text-indigo-500" />
+            <MessageSquare className="h-5 w-5 text-primary" />
             <CardTitle className="text-lg text-foreground">Anonymous Message</CardTitle>
             {!message.is_read && (
-              <Badge className="glass-button bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">
+              <Badge className="glass-button bg-primary/20 text-primary border-primary/20">
                 New
               </Badge>
             )}
@@ -73,8 +73,8 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
             variant="glass"
             size="sm"
             className={`transition-all duration-300 ${thankedMessages.has(message.id)
-                ? "text-pink-600 dark:text-pink-400 bg-pink-500/20 border-pink-500/20"
-                : "text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/20"
+              ? "text-pink-600 dark:text-pink-400 bg-pink-500/20 border-pink-500/20"
+              : "text-primary hover:bg-primary/20"
               }`}
           >
             <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />
