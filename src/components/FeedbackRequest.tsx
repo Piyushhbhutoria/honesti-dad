@@ -4,6 +4,9 @@ import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { checkRateLimit, formatResetTime, RATE_LIMITS } from "@/lib/rateLimiter";
+import { getFeedbackURL } from "@/lib/urlUtils";
+import { sanitizeText, validateName } from "@/lib/validation";
 import { useQuery } from "@tanstack/react-query";
 import { CheckCircle, Copy, Link, Moon, Share2, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -49,8 +52,18 @@ const FeedbackRequest = () => {
   }, [user]);
 
   const generateFeedbackLink = async () => {
-    if (!userName.trim()) {
-      toast.error("Please enter your name first");
+    // Check rate limiting first
+    const { isLimited, resetTime } = checkRateLimit(RATE_LIMITS.CREATE_FEEDBACK_REQUEST, user?.id);
+    if (isLimited) {
+      const timeRemaining = formatResetTime(resetTime);
+      toast.error(`Too many feedback requests created. Please wait ${timeRemaining} before creating another.`);
+      return;
+    }
+
+    // Validate the name
+    const validation = validateName(userName);
+    if (!validation.isValid) {
+      toast.error(validation.errors[0] || "Please enter a valid name");
       return;
     }
 
@@ -62,8 +75,11 @@ const FeedbackRequest = () => {
     setIsLoading(true);
 
     try {
+      // Sanitize the name
+      const sanitizedName = sanitizeText(validation.data);
+
       // Generate unique slug
-      const slug = userName.toLowerCase().replace(/\s+/g, '') + Date.now();
+      const slug = sanitizedName.toLowerCase().replace(/\s+/g, '') + Date.now();
 
       // Create feedback request using authenticated user ID
       const { data: requestData, error: requestError } = await supabase
@@ -71,7 +87,7 @@ const FeedbackRequest = () => {
         .insert({
           user_id: user.id,
           unique_slug: slug,
-          name: userName.trim()
+          name: sanitizedName
         })
         .select()
         .single();
@@ -91,16 +107,37 @@ const FeedbackRequest = () => {
 
   const getFeedbackUrl = () => {
     if (!existingRequest?.unique_slug) return "";
-    return `${window.location.origin}/feedback/${existingRequest.unique_slug}`;
+    try {
+      return getFeedbackURL(existingRequest.unique_slug);
+    } catch (error) {
+      console.error('Error generating feedback URL:', error);
+      return "";
+    }
   };
 
   const handleCopyLink = () => {
+    // Check rate limiting for copy/share actions
+    const { isLimited, resetTime } = checkRateLimit(RATE_LIMITS.COPY_SHARE);
+    if (isLimited) {
+      const timeRemaining = formatResetTime(resetTime);
+      toast.error(`Too many copy actions. Please wait ${timeRemaining}.`);
+      return;
+    }
+
     const url = getFeedbackUrl();
     navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard!");
   };
 
   const handleShare = () => {
+    // Check rate limiting for copy/share actions
+    const { isLimited, resetTime } = checkRateLimit(RATE_LIMITS.COPY_SHARE);
+    if (isLimited) {
+      const timeRemaining = formatResetTime(resetTime);
+      toast.error(`Too many share actions. Please wait ${timeRemaining}.`);
+      return;
+    }
+
     const url = getFeedbackUrl();
     if (navigator.share) {
       navigator.share({

@@ -4,6 +4,8 @@ import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { checkRateLimit, formatResetTime, RATE_LIMITS } from "@/lib/rateLimiter";
+import { sanitizeMessage, validateMessage } from "@/lib/validation";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Moon, Send, Shield, Sun } from "lucide-react";
 import { useState } from "react";
@@ -43,8 +45,18 @@ const SendFeedback = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!message.trim()) {
-      toast.error("Please enter a message");
+    // Check rate limiting first
+    const { isLimited, resetTime } = checkRateLimit(RATE_LIMITS.SEND_MESSAGE);
+    if (isLimited) {
+      const timeRemaining = formatResetTime(resetTime);
+      toast.error(`Too many messages sent. Please wait ${timeRemaining} before sending another message.`);
+      return;
+    }
+
+    // Validate the message
+    const validation = validateMessage(message);
+    if (!validation.isValid) {
+      toast.error(validation.errors[0] || "Please enter a valid message");
       return;
     }
 
@@ -56,11 +68,14 @@ const SendFeedback = () => {
     setIsSubmitting(true);
 
     try {
+      // Sanitize the message before storing
+      const sanitizedMessage = sanitizeMessage(validation.data);
+
       const { error } = await supabase
         .from('anonymous_messages')
         .insert({
           feedback_request_id: feedbackRequest.id,
-          content: message.trim()
+          content: sanitizedMessage
         });
 
       if (error) throw error;

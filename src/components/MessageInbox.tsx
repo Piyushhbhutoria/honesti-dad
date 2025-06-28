@@ -1,3 +1,4 @@
+import { getFeedbackURL } from "@/lib/urlUtils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EmptyState from "./MessageInbox/EmptyState";
@@ -18,8 +19,13 @@ const MessageInbox = () => {
   } = useInboxData();
 
   const getFeedbackUrl = () => {
-    if (!feedbackRequest) return null;
-    return `${window.location.origin}/feedback/${feedbackRequest.unique_slug}`;
+    if (!feedbackRequest?.unique_slug) return null;
+    try {
+      return getFeedbackURL(feedbackRequest.unique_slug);
+    } catch (error) {
+      console.error('Error generating feedback URL:', error);
+      return null;
+    }
   };
 
   const handleCopyLink = () => {

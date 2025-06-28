@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { supabase } from "@/integrations/supabase/client";
+import { validatePassword } from "@/lib/validation";
 import { Check, Eye, EyeOff, Lock, Shield, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -17,6 +18,7 @@ const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState<{ isValid: boolean, errors: string[] }>({ isValid: false, errors: [] });
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -26,6 +28,16 @@ const ResetPassword = () => {
       setPasswordsMatch(password === confirmPassword);
     }
   }, [password, confirmPassword, hasStartedTyping]);
+
+  // Real-time password strength validation
+  useEffect(() => {
+    if (password.length > 0) {
+      const validation = validatePassword(password);
+      setPasswordValidation(validation);
+    } else {
+      setPasswordValidation({ isValid: false, errors: [] });
+    }
+  }, [password]);
 
   useEffect(() => {
     // Handle Supabase auth callback
@@ -132,8 +144,8 @@ const ResetPassword = () => {
       return;
     }
 
-    if (password.length < 8) {
-      toast.error("Password must be at least 8 characters long.");
+    if (!passwordValidation.isValid) {
+      toast.error(passwordValidation.errors[0] || "Password does not meet security requirements.");
       return;
     }
 
@@ -169,7 +181,7 @@ const ResetPassword = () => {
     if (password.length === 0) return { strength: 0, label: '', color: '' };
     if (password.length < 6) return { strength: 1, label: 'Too short', color: 'text-red-500' };
     if (password.length < 8) return { strength: 2, label: 'Weak', color: 'text-orange-500' };
-    if (password.length < 12) return { strength: 3, label: 'Good', color: 'text-yellow-500' };
+    if (password.length < 10) return { strength: 3, label: 'Good', color: 'text-yellow-500' };
     return { strength: 4, label: 'Strong', color: 'text-green-500' };
   };
 
@@ -313,20 +325,42 @@ const ResetPassword = () => {
                 <Shield className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                 <span className="text-sm font-medium text-foreground">Password Requirements:</span>
               </div>
-              <ul className="text-sm text-foreground/70 space-y-1 ml-6">
-                <li className={`transition-colors ${password.length >= 6 ? 'text-green-600 dark:text-green-400' : ''}`}>
-                  • At least 8 characters long
+              <ul className="text-sm space-y-1 ml-6">
+                <li className={`transition-colors flex items-center gap-2 ${password.length >= 8 ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                  {password.length >= 8 ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                  At least 8 characters long
                 </li>
-                <li>• Use a combination of letters, numbers, and symbols</li>
-                <li>• Don't use easily guessable information</li>
+                <li className={`transition-colors flex items-center gap-2 ${/[A-Z]/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                  {/[A-Z]/.test(password) ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                  At least one uppercase letter
+                </li>
+                <li className={`transition-colors flex items-center gap-2 ${/[a-z]/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                  {/[a-z]/.test(password) ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                  At least one lowercase letter
+                </li>
+                <li className={`transition-colors flex items-center gap-2 ${/\d/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                  {/\d/.test(password) ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                  At least one number
+                </li>
+                <li className={`transition-colors flex items-center gap-2 ${/^[a-zA-Z0-9]+$/.test(password) && password.length > 0 ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                  {/^[a-zA-Z0-9]+$/.test(password) && password.length > 0 ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                  Only letters and numbers allowed
+                </li>
               </ul>
+              {passwordValidation.errors.length > 0 && (
+                <div className="mt-3 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    {passwordValidation.errors[0]}
+                  </p>
+                </div>
+              )}
             </div>
 
             <Button
               type="submit"
               variant="gradient-primary"
               className="w-full py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
-              disabled={isLoading || (hasStartedTyping && !passwordsMatch) || password.length < 8}
+              disabled={isLoading || (hasStartedTyping && !passwordsMatch) || !passwordValidation.isValid}
             >
               {isLoading ? (
                 <div className="flex items-center">

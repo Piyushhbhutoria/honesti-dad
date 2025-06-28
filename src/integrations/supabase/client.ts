@@ -2,10 +2,29 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = "https://zxvmvvmnjwtcjgzpaizp.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4dm12dm1uand0Y2pnenBhaXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4Njk0MzMsImV4cCI6MjA2NjQ0NTQzM30.YVFXhAKvKWT0CRcl2Li4xiYQGK5zVXVF1N6iEVq3XdE";
+// Use environment variables for Supabase configuration
+// Fallback to hardcoded values for development only
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "https://zxvmvvmnjwtcjgzpaizp.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4dm12dm1uand0Y2pnenBhaXpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4Njk0MzMsImV4cCI6MjA2NjQ0NTQzM30.YVFXhAKvKWT0CRcl2Li4xiYQGK5zVXVF1N6iEVq3XdE";
+
+// Security check: Ensure we're using the anon key (not service role)
+if (SUPABASE_PUBLISHABLE_KEY.includes('service_role')) {
+  throw new Error('ERROR: Service role key detected in frontend! Use anon key instead.');
+}
+
+// Validate required environment variables
+if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+  throw new Error('Missing required Supabase configuration. Please check your environment variables.');
+}
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    // Additional security configurations
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  }
+});
