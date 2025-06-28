@@ -1,33 +1,32 @@
-
-import { MessageSquare, Send, LogOut, User, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { toast } from "sonner";
-import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { LogIn, LogOut, MessageSquare, Moon, Send, Sun, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { user, signOut, loading } = useAuth();
+  const { user, signOut, loading, theme, toggleTheme } = useAuth();
 
   // Fetch user profile to get the name
   const { data: profile } = useQuery({
     queryKey: ['profile', user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      
+
       const { data, error } = await supabase
         .from('profiles')
         .select('name')
         .eq('id', user.id)
         .single();
-      
+
       if (error) {
         console.error('Error fetching profile:', error);
         return null;
       }
-      
+
       return data;
     },
     enabled: !!user?.id,
@@ -38,7 +37,7 @@ const Header = () => {
     queryKey: ['existing-feedback-request', user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      
+
       const { data, error } = await supabase
         .from('feedback_requests')
         .select('id, unique_slug')
@@ -46,12 +45,12 @@ const Header = () => {
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(1);
-      
+
       if (error) {
         console.error('Error fetching existing request:', error);
         return null;
       }
-      
+
       return data && data.length > 0 ? data[0] : null;
     },
     enabled: !!user?.id,
@@ -61,7 +60,7 @@ const Header = () => {
     try {
       console.log('Sign out button clicked');
       await signOut();
-      
+
       // Navigate to home page after successful sign out
       navigate('/');
       toast.success("Signed out successfully");
@@ -86,62 +85,74 @@ const Header = () => {
 
   if (loading) {
     return (
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
+      <header className="glass-header sticky top-0 z-50 border-b-0">
         <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-lg">
+            <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 p-2 rounded-xl shadow-inner-light">
               <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
               HonestBox
             </h1>
           </div>
-          <div className="animate-pulse bg-gray-200 h-8 w-24 sm:h-10 sm:w-32 rounded"></div>
+          <div className="animate-pulse bg-glass-light h-8 w-24 sm:h-10 sm:w-32 rounded-xl backdrop-blur-glass"></div>
         </div>
       </header>
     );
   }
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-50">
+    <header className="glass-header sticky top-0 z-50 border-b-0">
       <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
-        <div 
+        <div
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-2 rounded-lg">
+          <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 p-2 rounded-xl shadow-inner-light">
             <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
             HonestBox
           </h1>
         </div>
-        
+
         <div className="flex items-center space-x-1 sm:space-x-4">
+          {/* Theme Toggle */}
+          <Button
+            onClick={toggleTheme}
+            variant="ghost"
+            size="sm"
+            className="glass-button p-2 border-0"
+          >
+            {theme === 'light' ? (
+              <Moon className="h-4 w-4" />
+            ) : (
+              <Sun className="h-4 w-4" />
+            )}
+          </Button>
+
           {user ? (
             // Authenticated user view
             <>
-              <Button 
+              <Button
                 onClick={handleRequestFeedback}
-                variant="outline" 
-                size="sm"
-                className="border-purple-200 text-purple-600 hover:bg-purple-50 text-xs sm:text-sm px-2 sm:px-4"
+                className="glass-button bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 text-xs sm:text-sm px-2 sm:px-4"
               >
                 <Send className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">{existingRequest ? "View Feedback" : "Request Feedback"}</span>
                 <span className="sm:hidden">{existingRequest ? "View" : "Request"}</span>
               </Button>
-              
-              <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
+
+              <div className="hidden md:flex items-center space-x-2 text-sm text-foreground/70">
                 <User className="h-4 w-4" />
                 <span className="max-w-32 truncate">{profile?.name || user.email}</span>
               </div>
-              
+
               <Button
                 onClick={handleSignOut}
                 variant="ghost"
                 size="sm"
-                className="text-gray-600 hover:text-gray-800 px-2 sm:px-3"
+                className="glass-button text-foreground/70 hover:text-foreground px-2 sm:px-3 border-0"
               >
                 <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Sign Out</span>
@@ -152,7 +163,7 @@ const Header = () => {
             <Button
               onClick={() => navigate('/auth')}
               size="sm"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-xs sm:text-sm px-3 sm:px-4"
+              className="glass-button bg-indigo-500 hover:bg-indigo-600 text-white text-xs sm:text-sm px-3 sm:px-4 border-0"
             >
               <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               Sign In

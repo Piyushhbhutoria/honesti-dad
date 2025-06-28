@@ -1,13 +1,13 @@
 
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MessageSquare, Mail, Lock, User } from "lucide-react";
-import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { Lock, Mail, MessageSquare, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -91,16 +91,16 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-glass border-0">
         <CardHeader className="text-center pb-4">
-          <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-4">
+          <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-4 shadow-glass">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
-          <CardTitle className="text-2xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
-          <p className="text-gray-600">
+          <p className="text-foreground/70">
             {isLogin ? "Sign in to your HonestBox account" : "Join HonestBox to get anonymous feedback"}
           </p>
         </CardHeader>
@@ -123,7 +123,7 @@ const Auth = () => {
                 />
               </div>
             )}
-            
+
             <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2">
                 <Mail className="h-4 w-4" />
@@ -139,7 +139,7 @@ const Auth = () => {
                 disabled={isLoading}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password" className="flex items-center gap-2">
                 <Lock className="h-4 w-4" />
@@ -156,10 +156,10 @@ const Auth = () => {
                 minLength={6}
               />
             </div>
-            
+
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+              className="w-full glass-button bg-indigo-500 hover:bg-indigo-600 text-white py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -172,9 +172,9 @@ const Auth = () => {
               )}
             </Button>
           </form>
-          
+
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-foreground/70">
               {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
               <button
                 type="button"
@@ -184,7 +184,7 @@ const Auth = () => {
                   setPassword("");
                   setName("");
                 }}
-                className="text-purple-600 hover:text-purple-700 font-semibold hover:underline"
+                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold hover:underline"
                 disabled={isLoading}
               >
                 {isLogin ? "Sign up" : "Sign in"}

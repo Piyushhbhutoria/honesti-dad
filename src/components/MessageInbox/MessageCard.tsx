@@ -1,8 +1,8 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Clock, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Clock, Heart, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 
 interface Message {
@@ -25,7 +25,7 @@ const formatTimestamp = (timestamp: string) => {
   const diffMs = now.getTime() - date.getTime();
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
   const diffDays = Math.floor(diffHours / 24);
-  
+
   if (diffHours < 1) return "Just now";
   if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
   if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
@@ -42,41 +42,40 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
   };
 
   return (
-    <Card 
-      className={`shadow-lg border-0 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:scale-[1.02] animate-fade-in`}
+    <Card
+      className={`shadow-glass border-0 transition-all duration-300 hover:shadow-glass-hover hover:scale-[1.02] animate-fade-in`}
       style={{ animationDelay: `${index * 100}ms` }}
     >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <MessageSquare className="h-5 w-5 text-purple-500" />
-            <CardTitle className="text-lg text-gray-700">Anonymous Message</CardTitle>
+            <MessageSquare className="h-5 w-5 text-indigo-500" />
+            <CardTitle className="text-lg text-foreground">Anonymous Message</CardTitle>
             {!message.is_read && (
-              <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200">
+              <Badge className="glass-button bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-500/20">
                 New
               </Badge>
             )}
           </div>
-          <div className="flex items-center text-sm text-gray-500">
+          <div className="flex items-center text-sm text-foreground/60">
             <Clock className="h-4 w-4 mr-1" />
             {formatTimestamp(message.created_at)}
           </div>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <p className="text-gray-700 leading-relaxed mb-6 text-base">
+        <p className="text-foreground/80 leading-relaxed mb-6 text-base">
           {message.content}
         </p>
         <div className="flex items-center justify-between pt-2">
           <Button
             onClick={handleThankSender}
-            variant="ghost"
+            variant="glass"
             size="sm"
-            className={`transition-all duration-300 ${
-              thankedMessages.has(message.id)
-                ? "text-pink-600 bg-pink-50 hover:bg-pink-100"
-                : "text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-            }`}
+            className={`transition-all duration-300 ${thankedMessages.has(message.id)
+                ? "text-pink-600 dark:text-pink-400 bg-pink-500/20 border-pink-500/20"
+                : "text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/20"
+              }`}
           >
             <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />
             {thankedMessages.has(message.id) ? "Thanked!" : "Thank sender"}

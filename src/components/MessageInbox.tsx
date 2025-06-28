@@ -1,12 +1,11 @@
-
 import { useState } from "react";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useInboxData } from "./MessageInbox/useInboxData";
-import InboxHeader from "./MessageInbox/InboxHeader";
-import MessageCard from "./MessageInbox/MessageCard";
+import { toast } from "sonner";
 import EmptyState from "./MessageInbox/EmptyState";
+import InboxHeader from "./MessageInbox/InboxHeader";
 import LoadingState from "./MessageInbox/LoadingState";
+import MessageCard from "./MessageInbox/MessageCard";
+import { useInboxData } from "./MessageInbox/useInboxData";
 
 const MessageInbox = () => {
   const [thankedMessages, setThankedMessages] = useState<Set<string>>(new Set());
@@ -59,8 +58,14 @@ const MessageInbox = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <section className="py-20 relative">
+      {/* Subtle background decoration */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 right-1/4 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-2xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 max-w-4xl relative z-10">
         <InboxHeader
           messagesCount={messages.length}
           feedbackRequest={feedbackRequest}

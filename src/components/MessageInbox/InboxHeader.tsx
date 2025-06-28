@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Copy } from "lucide-react";
-import { Instagram } from "lucide-react";
+import { Copy, Instagram, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 
 interface FeedbackRequest {
@@ -26,7 +25,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 
     const feedbackUrl = `${window.location.origin}/feedback/${feedbackRequest.unique_slug}`;
     const shareText = `Send me an anonymous message! 💬\n\n${feedbackUrl}`;
-    
+
     // Copy the text and link to clipboard first
     navigator.clipboard.writeText(shareText).then(() => {
       toast.success("Message and link copied! Now opening Instagram...", {
@@ -36,12 +35,12 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 
     // Detect if user is on mobile
     const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
+
     if (isMobile) {
       // Try to open Instagram app directly
       const instagramUrl = `instagram://story-camera`;
       window.location.href = instagramUrl;
-      
+
       // Fallback to web version if app doesn't open
       setTimeout(() => {
         window.open('https://www.instagram.com/', '_blank');
@@ -54,35 +53,35 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 
   return (
     <div className="text-center mb-12">
-      <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-6">
+      <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-6 shadow-glass">
         <MessageSquare className="h-8 w-8 text-white" />
       </div>
-      <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+      <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
         Your Message Inbox
       </h2>
-      <p className="text-lg text-gray-600 mb-8">
-        {messagesCount > 0 
-          ? "Here are the anonymous messages you've received" 
+      <p className="text-lg text-foreground/70 mb-8">
+        {messagesCount > 0
+          ? "Here are the anonymous messages you've received"
           : "No messages yet - share your link to start receiving feedback!"}
       </p>
-      
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+      {feedbackRequest && <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button
           onClick={handleInstagramShare}
-          className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+          className="glass-button bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
         >
           <Instagram className="h-4 w-4 mr-2" />
-          {feedbackRequest ? "Share to Instagram" : "Create Feedback Link"}
+          Share to Instagram
         </Button>
         <Button
           onClick={onCopyLink}
-          variant="outline" 
-          className="border-purple-200 text-purple-600 hover:bg-purple-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+          variant="glass-indigo"
+          className="px-6 py-3 font-semibold transition-all duration-300 transform hover:scale-105"
         >
           <Copy className="h-4 w-4 mr-2" />
-          {feedbackRequest ? "Copy Link" : "Get Started"}
+          Copy Link
         </Button>
-      </div>
+      </div>}
     </div>
   );
 };
