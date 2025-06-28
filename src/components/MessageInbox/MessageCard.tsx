@@ -1,8 +1,6 @@
-
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, Heart, MessageSquare } from "lucide-react";
+import { Clock, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 
 interface Message {
@@ -17,6 +15,7 @@ interface MessageCardProps {
   index: number;
   thankedMessages: Set<string>;
   onThankSender: (messageId: string) => void;
+  onMarkAsRead?: (messageId: string) => void;
 }
 
 const formatTimestamp = (timestamp: string) => {
@@ -32,7 +31,7 @@ const formatTimestamp = (timestamp: string) => {
   return date.toLocaleDateString();
 };
 
-const MessageCard = ({ message, index, thankedMessages, onThankSender }: MessageCardProps) => {
+const MessageCard = ({ message, index, thankedMessages, onThankSender, onMarkAsRead }: MessageCardProps) => {
   const handleThankSender = () => {
     if (thankedMessages.has(message.id)) {
       toast.info("You've already thanked the sender for this message!");
@@ -64,23 +63,9 @@ const MessageCard = ({ message, index, thankedMessages, onThankSender }: Message
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <p className="text-foreground/80 leading-relaxed mb-6 text-base">
+        <p className="text-foreground/80 leading-relaxed mb-3 text-base">
           {message.content}
         </p>
-        <div className="flex items-center justify-between pt-2">
-          <Button
-            onClick={handleThankSender}
-            variant="glass"
-            size="sm"
-            className={`transition-all duration-300 ${thankedMessages.has(message.id)
-              ? "text-pink-600 dark:text-pink-400 bg-pink-500/20 border-pink-500/20"
-              : "text-primary hover:bg-primary/20"
-              }`}
-          >
-            <Heart className={`h-4 w-4 mr-1 ${thankedMessages.has(message.id) ? "fill-current" : ""}`} />
-            {thankedMessages.has(message.id) ? "Thanked!" : "Thank sender"}
-          </Button>
-        </div>
       </CardContent>
     </Card>
   );

@@ -10,7 +10,14 @@ import { useInboxData } from "./MessageInbox/useInboxData";
 const MessageInbox = () => {
   const [thankedMessages, setThankedMessages] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
-  const { messages, feedbackRequest, isLoading, authLoading, user } = useInboxData();
+  const {
+    messages,
+    feedbackRequest,
+    isLoading,
+    authLoading,
+    user,
+    markMessageAsRead
+  } = useInboxData();
 
   const getFeedbackUrl = () => {
     if (!feedbackRequest) return null;
@@ -48,6 +55,10 @@ const MessageInbox = () => {
     toast.success("Thank you sent! The sender will know you appreciated their message. 💜");
   };
 
+  const handleMarkAsRead = async (messageId: string) => {
+    await markMessageAsRead(messageId);
+  };
+
   if (authLoading || isLoading) {
     return <LoadingState />;
   }
@@ -81,6 +92,7 @@ const MessageInbox = () => {
               index={index}
               thankedMessages={thankedMessages}
               onThankSender={handleThankSender}
+              onMarkAsRead={handleMarkAsRead}
             />
           ))}
         </div>

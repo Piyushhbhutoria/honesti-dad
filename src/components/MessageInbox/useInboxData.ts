@@ -1,7 +1,7 @@
-
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Message {
   id: string;
@@ -22,13 +22,51 @@ export const useInboxData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user, loading: authLoading } = useAuth();
 
+  // Function to mark messages as read
+  const markMessagesAsRead = async (messageIds: string[]) => {
+    if (messageIds.length === 0) return;
+
+    try {
+      const { error } = await supabase
+        .from('anonymous_messages')
+        .update({ is_read: true })
+        .in('id', messageIds);
+
+      if (error) {
+        console.error('Error marking messages as read:', error);
+        toast.error('Failed to mark messages as read');
+        return false;
+      }
+
+      // Update local state
+      setMessages(prevMessages =>
+        prevMessages.map(message =>
+          messageIds.includes(message.id)
+            ? { ...message, is_read: true }
+            : message
+        )
+      );
+
+      return true;
+    } catch (error) {
+      console.error('Error marking messages as read:', error);
+      toast.error('Failed to mark messages as read');
+      return false;
+    }
+  };
+
+  // Function to mark a single message as read
+  const markMessageAsRead = async (messageId: string) => {
+    return markMessagesAsRead([messageId]);
+  };
+
   useEffect(() => {
     const loadInboxData = async () => {
       if (!user) {
         setIsLoading(false);
         return;
       }
-      
+
       try {
         // Get the most recent feedback request for the authenticated user
         const { data: requests, error: requestError } = await supabase
@@ -54,10 +92,22 @@ export const useInboxData = () => {
 
           if (messagesError) throw messagesError;
 
-          setMessages(messagesData || []);
+          const messages = messagesData || [];
+          setMessages(messages);
+
+          // Automatically mark unread messages as read when they're loaded
+          const unreadMessageIds = messages
+            .filter(message => !message.is_read)
+            .map(message => message.id);
+
+          if (unreadMessageIds.length > 0) {
+            // Mark as read in the background (don't wait for it)
+            markMessagesAsRead(unreadMessageIds);
+          }
         }
       } catch (error) {
         console.error('Error loading inbox data:', error);
+        toast.error('Failed to load messages');
       } finally {
         setIsLoading(false);
       }
@@ -73,6 +123,8 @@ export const useInboxData = () => {
     feedbackRequest,
     isLoading,
     authLoading,
-    user
+    user,
+    markMessageAsRead,
+    markMessagesAsRead
   };
 };
