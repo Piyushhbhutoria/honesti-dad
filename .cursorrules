@@ -1,0 +1,210 @@
+# HonestBox - Frosted Glass Theme Rules
+
+## Design System Overview
+
+This project uses a **Frosted Glass** design system with iOS-style elegance. All components should follow these established patterns and maintain visual consistency.
+
+## Core Theme Specifications
+
+### Color Palette
+
+- **Primary Accent**: Indigo (#5E5CE6) - Use `indigo-500`, `indigo-600` for primary actions
+- **Glass Background**: `rgba(255,255,255,0.05)` - Use `bg-glass-light` utility class
+- **Text Colors**:
+  - Light theme: `#111111` (`text-foreground`)
+  - Dark theme: `#FFFFFF` (`text-foreground`)
+  - Secondary text: `text-foreground/70`
+- **Border Colors**: `border-glass-border` for glass elements
+
+### Glass Effect Classes (Already Defined)
+
+```css
+.glass - Basic frosted glass container
+.glass-card - Glass card with padding and rounded corners
+.glass-button - Glass button styling
+.glass-header - Glass header styling
+```
+
+### Essential Styling Patterns
+
+#### 1. Background Gradients
+
+```css
+/* Main page backgrounds */
+bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 
+dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950
+```
+
+#### 2. Animated Background Elements
+
+Always include subtle animated background blobs:
+
+```tsx
+<div className="absolute inset-0 overflow-hidden pointer-events-none">
+  <div className="absolute top-20 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
+  <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+</div>
+```
+
+#### 3. Glass Cards
+
+```tsx
+<Card className="shadow-glass border-0 hover:shadow-glass-hover transition-all duration-300">
+```
+
+#### 4. Glass Input Fields
+
+```tsx
+<Input className="glass-card bg-glass-light border-glass-border" />
+```
+
+#### 5. Primary Buttons
+
+```tsx
+<Button className="glass-button bg-indigo-500 hover:bg-indigo-600 text-white transition-all duration-300 transform hover:scale-105">
+```
+
+#### 6. Icon Backgrounds
+
+```tsx
+<div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 shadow-glass">
+  <Icon className="h-8 w-8 text-white" />
+</div>
+```
+
+#### 7. Gradient Text
+
+```tsx
+<h1 className="bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+```
+
+## Component Patterns
+
+### Headers
+
+- Use `glass-header` class
+- Include theme toggle button with sun/moon icons
+- Apply indigo color scheme for active states
+
+### Forms
+
+- All inputs should use glass styling: `glass-card bg-glass-light border-glass-border`
+- Buttons should use `glass-button` with indigo colors
+- Form containers should have `shadow-glass border-0`
+
+### Cards & Containers
+
+- Use `shadow-glass` for main containers
+- Add `hover:shadow-glass-hover` for interactive elements
+- Include `relative z-10` for proper layering over background elements
+
+### Loading States
+
+- Use glass containers with indigo accent colors
+- Include animated spinners with `border-indigo-500`
+
+### Information Sections
+
+- Use subtle glass cards with indigo accents:
+
+```tsx
+<div className="glass-card bg-indigo-500/5 border-indigo-500/10 p-4">
+  <Shield className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+</div>
+```
+
+## Animation Guidelines
+
+### Hover Effects
+
+- Use `transform hover:scale-105` for buttons
+- Apply `transition-all duration-300` for smooth animations
+- Combine with `hover:shadow-glass-hover` for glass elements
+
+### Background Animations
+
+- Use `animate-pulse` with different delays (0ms, 500ms, 1000ms)
+- Apply `blur-3xl` for soft background effects
+- Use indigo/blue color variations with low opacity (5-10%)
+
+## Theme Integration
+
+### Light/Dark Mode Support
+
+- All components must work in both light and dark themes
+- Use CSS custom properties and `text-foreground` classes
+- Apply `dark:` prefixes for dark mode variants
+
+### Theme Toggle Implementation
+
+```tsx
+const { theme, toggleTheme } = useAuth();
+// Use theme state for conditional styling
+```
+
+## File Structure Patterns
+
+### Component Organization
+
+- Keep UI components in `src/components/ui/`
+- Page components in `src/pages/`
+- Shared components in `src/components/`
+
+### Styling Approach
+
+- Prefer Tailwind utility classes over custom CSS
+- Use established glass utility classes
+- Maintain consistent spacing with Tailwind scale
+
+## Code Quality Rules
+
+### TypeScript
+
+- Always use proper TypeScript types
+- Import types from `@/integrations/supabase/types` when needed
+- Use proper React.FC types for components
+
+### Imports
+
+- Use `@/` prefix for internal imports
+- Group imports: React, external libraries, internal components, utilities
+
+### Error Handling
+
+- Use `toast.error()` and `toast.success()` for user feedback
+- Include proper loading states with glass styling
+- Handle async operations with try/catch blocks
+
+## Accessibility
+
+- Maintain proper contrast ratios with glass backgrounds
+- Use semantic HTML elements
+- Include proper ARIA labels where needed
+- Ensure keyboard navigation works with glass elements
+
+## Performance
+
+- Use CSS backdrop-filter efficiently
+- Minimize layout shifts with consistent sizing
+- Optimize animations for 60fps performance
+
+## Examples to Follow
+
+- `src/pages/Auth.tsx` - Glass forms and modals
+- `src/components/Header.tsx` - Glass header with theme toggle
+- `src/components/Hero.tsx` - Animated backgrounds and glass cards
+- `src/pages/ResetPassword.tsx` - Complete glass page layout
+
+## Never Do
+
+- ❌ Use colors other than indigo for primary actions
+- ❌ Create solid backgrounds (always use glass effects)
+- ❌ Skip animated background elements on full-page layouts
+- ❌ Use harsh shadows (only use glass shadows)
+- ❌ Mix design systems (stick to frosted glass consistently)
+- ❌ Forget dark mode support
+- ❌ Create components without hover effects
+- ❌ Use green/red colors for primary UI (reserve for success/error only)
+
+Remember: Every component should feel like it belongs to a cohesive, elegant iOS-style frosted glass design system.
