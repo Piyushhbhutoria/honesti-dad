@@ -88,10 +88,10 @@ const Header = () => {
       <header className="glass-header sticky top-0 z-50 border-b-0">
         <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 p-2 rounded-xl shadow-inner-light">
+            <div className="bg-gradient-to-br from-primary to-primary/90 p-2 rounded-xl shadow-inner-light">
               <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
               HonestBox
             </h1>
           </div>
@@ -108,10 +108,10 @@ const Header = () => {
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 p-2 rounded-xl shadow-inner-light">
+          <div className="bg-gradient-to-br from-primary to-primary/90 p-2 rounded-xl shadow-inner-light">
             <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             HonestBox
           </h1>
         </div>
@@ -136,7 +136,7 @@ const Header = () => {
             <>
               <Button
                 onClick={handleRequestFeedback}
-                className="glass-button bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 text-xs sm:text-sm px-2 sm:px-4"
+                className="glass-button bg-primary/20 hover:bg-primary/30 text-primary border-primary/20 text-xs sm:text-sm px-2 sm:px-4"
               >
                 <Send className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">{existingRequest ? "View Feedback" : "Request Feedback"}</span>
@@ -163,7 +163,7 @@ const Header = () => {
             <Button
               onClick={() => navigate('/auth')}
               size="sm"
-              className="glass-button bg-indigo-500 hover:bg-indigo-600 text-white text-xs sm:text-sm px-3 sm:px-4 border-0"
+              className="gradient-primary text-xs sm:text-sm px-3 sm:px-4 border-0"
             >
               <LogIn className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               Sign In

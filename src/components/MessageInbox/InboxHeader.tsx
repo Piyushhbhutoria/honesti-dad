@@ -53,10 +53,10 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 
   return (
     <div className="text-center mb-12">
-      <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-6 shadow-glass">
+      <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-6 shadow-glass">
         <MessageSquare className="h-8 w-8 text-white" />
       </div>
-      <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+      <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
         Your Message Inbox
       </h2>
       <p className="text-lg text-foreground/70 mb-8">
@@ -68,14 +68,15 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
       {feedbackRequest && <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Button
           onClick={handleInstagramShare}
-          className="glass-button bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
+          variant="gradient-primary"
+          className="px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
         >
           <Instagram className="h-4 w-4 mr-2" />
           Share to Instagram
         </Button>
         <Button
           onClick={onCopyLink}
-          variant="glass-indigo"
+          variant="glass-primary"
           className="px-6 py-3 font-semibold transition-all duration-300 transform hover:scale-105"
         >
           <Copy className="h-4 w-4 mr-2" />

@@ -149,20 +149,20 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <CardHeader className="text-center pb-4">
-          <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-4 shadow-glass">
+          <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
-          <CardTitle className="text-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
           <p className="text-foreground/70">
@@ -222,7 +222,7 @@ const Auth = () => {
                   placeholder="Enter your full name"
                   required={!isLogin}
                   disabled={isLoading}
-                  className="glass-card bg-glass-light border-glass-border"
+                  className="glass-input"
                 />
               </div>
             )}
@@ -240,7 +240,7 @@ const Auth = () => {
                 placeholder="Enter your email"
                 required
                 disabled={isLoading}
-                className="glass-card bg-glass-light border-glass-border"
+                className="glass-input"
               />
             </div>
 
@@ -258,13 +258,14 @@ const Auth = () => {
                 required
                 disabled={isLoading}
                 minLength={6}
-                className="glass-card bg-glass-light border-glass-border"
+                className="glass-input"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full glass-button bg-indigo-500 hover:bg-indigo-600 text-white py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
+              variant="gradient-primary"
+              className="w-full py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -289,7 +290,7 @@ const Auth = () => {
                   setPassword("");
                   setName("");
                 }}
-                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold hover:underline transition-colors"
+                className="text-primary hover:text-primary/80 font-semibold hover:underline transition-colors"
                 disabled={isLoading}
               >
                 {isLogin ? "Sign up" : "Sign in"}
@@ -302,7 +303,7 @@ const Auth = () => {
               <button
                 type="button"
                 onClick={() => setShowForgotPassword(true)}
-                className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:underline transition-colors"
+                className="text-sm text-primary hover:text-primary/80 hover:underline transition-colors"
                 disabled={isLoading}
               >
                 Forgot your password?
@@ -316,16 +317,16 @@ const Auth = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
           {/* Animated background elements for the modal */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-1/3 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-1/3 w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl animate-pulse delay-700"></div>
+            <div className="absolute top-1/4 left-1/3 w-32 h-32 bg-primary/10 rounded-full blur-2xl animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/3 w-48 h-48 bg-primary/5 rounded-full blur-2xl animate-pulse delay-700"></div>
           </div>
 
           <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300 animate-in slide-in-from-bottom-4 zoom-in-95">
             <CardHeader className="text-center pb-4">
-              <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-4 shadow-glass animate-pulse">
+              <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass animate-pulse">
                 <Lock className="h-8 w-8 text-white" />
               </div>
-              <CardTitle className="text-xl bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+              <CardTitle className="text-xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
                 Reset Password
               </CardTitle>
               <p className="text-foreground/70 text-sm">
@@ -336,7 +337,7 @@ const Auth = () => {
               <form onSubmit={handleForgotPassword} className="space-y-5">
                 <div className="space-y-2">
                   <Label htmlFor="reset-email" className="flex items-center gap-2 text-foreground font-medium">
-                    <Mail className="h-4 w-4 text-indigo-500" />
+                    <Mail className="h-4 w-4 text-primary" />
                     Email Address
                   </Label>
                   <Input
@@ -347,14 +348,14 @@ const Auth = () => {
                     placeholder="Enter your email address"
                     required
                     disabled={isLoading}
-                    className="glass-card bg-glass-light border-glass-border focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                    className="glass-input"
                   />
                 </div>
 
-                <div className="glass-card bg-indigo-500/5 border-indigo-500/10 p-4 rounded-lg">
+                <div className="glass-card bg-primary/5 border-primary/10 p-4 rounded-lg">
                   <div className="flex items-start gap-3">
-                    <div className="glass-card bg-indigo-500/10 p-1.5 rounded-md">
-                      <Shield className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                    <div className="glass-card bg-primary/10 p-1.5 rounded-md">
+                      <Shield className="h-4 w-4 text-primary" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground mb-1">Secure Password Reset</p>
@@ -369,7 +370,8 @@ const Auth = () => {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 glass-button bg-indigo-500 hover:bg-indigo-600 text-white font-semibold border-0 transition-all duration-300 transform hover:scale-105 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    variant="gradient-primary"
+                    className="flex-1 font-semibold border-0 transition-all duration-300 transform hover:scale-105 focus-ring"
                   >
                     {isLoading ? (
                       <div className="flex items-center">
@@ -401,7 +403,7 @@ const Auth = () => {
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(false)}
-                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:underline transition-colors font-medium"
+                    className="text-primary hover:text-primary/80 hover:underline transition-colors font-medium"
                     disabled={isLoading}
                   >
                     Back to Sign In

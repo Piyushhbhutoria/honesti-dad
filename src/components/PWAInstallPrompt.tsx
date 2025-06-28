@@ -72,7 +72,7 @@ const PWAInstallPrompt = () => {
     <div className="fixed bottom-4 left-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50 md:left-auto md:right-4 md:max-w-sm">
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
-          <Download className="h-5 w-5 text-purple-600" />
+          <Download className="h-5 w-5 text-primary" />
           <h3 className="font-semibold text-gray-900">Install HonestBox</h3>
         </div>
         <Button
@@ -91,7 +91,8 @@ const PWAInstallPrompt = () => {
       <Button
         onClick={handleInstall}
         disabled={isInstalling}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+        variant="gradient-primary"
+        className="w-full"
       >
         {isInstalling ? 'Installing...' : 'Install App'}
       </Button>

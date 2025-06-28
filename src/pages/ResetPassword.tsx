@@ -175,20 +175,20 @@ const ResetPassword = () => {
   const passwordStrength = getPasswordStrength(password);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <CardHeader className="text-center pb-4">
-          <div className="glass-card bg-gradient-to-br from-indigo-500 to-indigo-600 p-3 w-fit mx-auto mb-4 shadow-glass">
+          <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass">
             <Lock className="h-8 w-8 text-white" />
           </div>
-          <CardTitle className="text-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             Set New Password
           </CardTitle>
           <p className="text-foreground/70">
@@ -212,7 +212,7 @@ const ResetPassword = () => {
                   required
                   disabled={isLoading}
                   minLength={6}
-                  className="pr-10 glass-card bg-glass-light border-glass-border"
+                  className="pr-10 glass-input"
                 />
                 <button
                   type="button"
@@ -260,7 +260,7 @@ const ResetPassword = () => {
                   required
                   disabled={isLoading}
                   minLength={6}
-                  className={`pr-16 glass-card bg-glass-light border-glass-border transition-all duration-300 ${hasStartedTyping && confirmPassword.length > 0
+                  className={`pr-16 glass-input transition-all duration-300 ${hasStartedTyping && confirmPassword.length > 0
                     ? passwordsMatch
                       ? 'border-green-500 focus:border-green-500'
                       : 'border-red-500 focus:border-red-500'
@@ -302,9 +302,9 @@ const ResetPassword = () => {
               )}
             </div>
 
-            <div className="glass-card bg-indigo-500/5 border-indigo-500/10 p-4">
+            <div className="glass-card bg-primary/5 border-primary/10 p-4">
               <div className="flex items-start gap-2 mb-2">
-                <Shield className="h-4 w-4 text-indigo-600 dark:text-indigo-400 mt-0.5 flex-shrink-0" />
+                <Shield className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                 <span className="text-sm font-medium text-foreground">Password Requirements:</span>
               </div>
               <ul className="text-sm text-foreground/70 space-y-1 ml-6">
@@ -318,7 +318,8 @@ const ResetPassword = () => {
 
             <Button
               type="submit"
-              className="w-full glass-button bg-indigo-500 hover:bg-indigo-600 text-white py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
+              variant="gradient-primary"
+              className="w-full py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
               disabled={isLoading || (hasStartedTyping && !passwordsMatch) || password.length < 8}
             >
               {isLoading ? (
@@ -339,7 +340,7 @@ const ResetPassword = () => {
             <button
               type="button"
               onClick={() => navigate('/auth')}
-              className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:underline transition-colors"
+              className="text-sm text-primary hover:text-primary/80 hover:underline transition-colors"
               disabled={isLoading}
             >
               Back to Sign In

@@ -61,7 +61,7 @@ const MessageInbox = () => {
     <section className="py-20 relative">
       {/* Subtle background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 right-1/4 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
+        <div className="absolute top-10 right-1/4 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
         <div className="absolute bottom-10 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-2xl"></div>
       </div>
 
