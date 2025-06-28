@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ThemeToggle from "@/components/ui/theme-toggle";
 import { supabase } from "@/integrations/supabase/client";
 import { Check, Eye, EyeOff, Lock, Shield, X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -176,6 +177,11 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Theme Toggle Button */}
+      <div className="absolute top-4 right-4 z-20">
+        <ThemeToggle />
+      </div>
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
@@ -309,7 +315,7 @@ const ResetPassword = () => {
               </div>
               <ul className="text-sm text-foreground/70 space-y-1 ml-6">
                 <li className={`transition-colors ${password.length >= 6 ? 'text-green-600 dark:text-green-400' : ''}`}>
-                  • At least 6 characters long
+                  • At least 8 characters long
                 </li>
                 <li>• Use a combination of letters, numbers, and symbols</li>
                 <li>• Don't use easily guessable information</li>

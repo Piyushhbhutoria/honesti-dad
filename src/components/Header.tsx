@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/ui/theme-toggle";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { LogIn, LogOut, MessageSquare, Moon, Send, Sun, User } from "lucide-react";
+import { LogIn, LogOut, MessageSquare, Send, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { user, signOut, loading, theme, toggleTheme } = useAuth();
+  const { user, signOut, loading } = useAuth();
 
   // Fetch user profile to get the name
   const { data: profile } = useQuery({
@@ -118,18 +119,7 @@ const Header = () => {
 
         <div className="flex items-center space-x-1 sm:space-x-4">
           {/* Theme Toggle */}
-          <Button
-            onClick={toggleTheme}
-            variant="ghost"
-            size="sm"
-            className="glass-button p-2 border-0"
-          >
-            {theme === 'light' ? (
-              <Moon className="h-4 w-4" />
-            ) : (
-              <Sun className="h-4 w-4" />
-            )}
-          </Button>
+          <ThemeToggle variant="header" />
 
           {user ? (
             // Authenticated user view

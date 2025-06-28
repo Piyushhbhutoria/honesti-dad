@@ -29,8 +29,12 @@ const App = () => (
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/debug-reset" element={<DebugReset />} />
-            <Route path="/test-reset" element={<TestReset />} />
+            {import.meta.env.DEV && (
+              <>
+                <Route path="/debug-reset" element={<DebugReset />} />
+                <Route path="/test-reset" element={<TestReset />} />
+              </>
+            )}
             <Route path="/feedback/:slug" element={<SendFeedback />} />
             <Route path="/" element={<Index />} />
             <Route path="/request" element={
