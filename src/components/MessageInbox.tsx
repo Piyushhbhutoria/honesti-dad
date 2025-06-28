@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import EmptyState from "./MessageInbox/EmptyState";
@@ -8,7 +7,6 @@ import MessageCard from "./MessageInbox/MessageCard";
 import { useInboxData } from "./MessageInbox/useInboxData";
 
 const MessageInbox = () => {
-  const [thankedMessages, setThankedMessages] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const {
     messages,
@@ -50,11 +48,6 @@ const MessageInbox = () => {
     }
   };
 
-  const handleThankSender = (messageId: string) => {
-    setThankedMessages(prev => new Set(prev).add(messageId));
-    toast.success("Thank you sent! The sender will know you appreciated their message. 💜");
-  };
-
   const handleMarkAsRead = async (messageId: string) => {
     await markMessageAsRead(messageId);
   };
@@ -90,9 +83,6 @@ const MessageInbox = () => {
               key={message.id}
               message={message}
               index={index}
-              thankedMessages={thankedMessages}
-              onThankSender={handleThankSender}
-              onMarkAsRead={handleMarkAsRead}
             />
           ))}
         </div>

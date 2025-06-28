@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Instagram, MessageSquare, X } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Copy, ExternalLink, Instagram, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -66,6 +67,11 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
     setContentCopied(false);
   };
 
+  const handleCloseGuide = () => {
+    setShowInstagramGuide(false);
+    setContentCopied(false);
+  };
+
   const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   return (
@@ -110,58 +116,53 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
         </div>}
       </div>
 
-      {/* Instagram Sharing Guide Popup */}
-      {showInstagramGuide && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-colors duration-300 ease-in-out">
-          <div className="glass shadow-glass border-0 hover:shadow-glass-hover transition-all duration-300 max-w-md w-full mx-auto relative rounded-xl">
-            <button
-              onClick={() => {
-                setShowInstagramGuide(false);
-                setContentCopied(false);
-              }}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-foreground/10 transition-colors duration-300 ease-in-out focus-ring"
-            >
-              <X className="h-4 w-4 text-muted-foreground" />
-            </button>
+      {/* Instagram Sharing Guide Dialog */}
+      <Dialog open={showInstagramGuide} onOpenChange={handleCloseGuide}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-2 shadow-glass">
+              <Instagram className="h-5 w-5 text-white" />
+            </div>
+            <h3 className="text-xl font-semibold text-foreground">Share to Instagram</h3>
+          </div>
 
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-2 shadow-glass">
-                  <Instagram className="h-5 w-5 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground">Share to Instagram</h3>
-              </div>
-
-              {contentCopied && (
-                <div className="glass bg-primary/5 border-primary/10 p-3 mb-4 rounded-sm">
-                  <p className="text-sm text-primary font-medium">
+          <div className="space-y-6">
+            {/* Success Message */}
+            {contentCopied && (
+              <div className="glass bg-primary/5 border-primary/10 p-3 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <span className="text-primary font-medium">
                     ✅ Content copied to clipboard!
-                  </p>
-                </div>
-              )}
-
-              <div className="space-y-3 mb-6">
-                <h4 className="font-medium text-foreground">Follow these steps:</h4>
-                <div className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-start gap-2">
-                    <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">1</span>
-                    <span>Click "Open Instagram" below</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">2</span>
-                    <span>{isMobile ? "Create a new Story" : "Create a new Story or Post"}</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">3</span>
-                    <span>Add text to your story/post</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">4</span>
-                    <span>Paste your copied message</span>
-                  </div>
+                  </span>
                 </div>
               </div>
+            )}
 
+            {/* Steps */}
+            <div className="space-y-3">
+              <h3 className="font-medium text-foreground">Follow these steps:</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                  <span className="text-muted-foreground">Click "Open Instagram" below</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                  <span className="text-muted-foreground">{isMobile ? "Create a new Story" : "Create a new Story or Post"}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">3</span>
+                  <span className="text-muted-foreground">Add text to your story/post</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="glass-card bg-primary/20 text-primary w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">4</span>
+                  <span className="text-muted-foreground">Paste your copied message</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <div className="pt-2">
               <Button
                 onClick={handleOpenInstagram}
                 variant="gradient-primary"
@@ -172,8 +173,8 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
               </Button>
             </div>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
