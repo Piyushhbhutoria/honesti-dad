@@ -2,14 +2,10 @@
 
 // Define allowed origins for production and development
 const ALLOWED_ORIGINS = {
-  production: ['https://honestbox.app'], // Replace with your actual production domain
+  production: ['https://honesti-dad.lovable.app'], // Replace with your actual production domain
   development: [
     'http://localhost:8080',
-    'http://localhost:3000',
-    'http://localhost:5173',
     'http://127.0.0.1:8080',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:5173'
   ]
 };
 
@@ -44,7 +40,7 @@ export const getSafeBaseURL = (): string => {
   }
 
   // Fallback to production URL if current origin is not allowed
-  return ALLOWED_ORIGINS.production[0] || 'https://honestbox.app';
+  return ALLOWED_ORIGINS.production[0] || 'https://honesti-dad.lovable.app/';
 };
 
 // Safely construct feedback URLs
