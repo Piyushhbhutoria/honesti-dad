@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
+import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { useAuth } from "@/contexts/AuthContext";
-import { Heart, MessageSquare, Send } from "lucide-react";
+import { Heart, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
@@ -24,7 +25,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 text-center max-w-4xl relative z-10">
         <div className="mb-8">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-4 w-fit mx-auto mb-8 shadow-glass">
-            <MessageSquare className="h-12 w-12 text-white" />
+            <HonestBoxIcon className="h-12 w-12 text-white" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent leading-tight">
             Get Honest Feedback,
@@ -51,7 +52,7 @@ const Hero = () => {
         <div className="grid md:grid-cols-3 gap-8 mt-16">
           <div className="glass-card p-6 hover:shadow-glass-hover transition-all duration-300 transform hover:scale-105">
             <div className="glass-card bg-primary/10 p-3 w-fit mx-auto mb-4">
-              <MessageSquare className="h-6 w-6 text-primary" />
+              <HonestBoxIcon className="h-6 w-6 text-primary" />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Completely Anonymous</h3>
             <p className="text-foreground/70">

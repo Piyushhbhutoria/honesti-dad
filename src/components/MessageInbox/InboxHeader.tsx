@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Copy, ExternalLink, Instagram, MessageSquare } from "lucide-react";
+import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
+import { Copy, ExternalLink, Instagram } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -85,7 +86,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 
       <div className="relative z-10 text-center mb-12">
         <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-3 w-fit mx-auto mb-6 shadow-glass">
-          <MessageSquare className="h-8 w-8 text-white" />
+          <HonestBoxIcon className="h-8 w-8 text-white" />
         </div>
         <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
           Your Message Inbox

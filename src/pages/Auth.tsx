@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { supabase } from "@/integrations/supabase/client";
-import { Lock, Mail, MessageSquare, Shield, User } from "lucide-react";
+import { Lock, Mail, Shield, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -166,7 +167,7 @@ const Auth = () => {
       <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <CardHeader className="text-center pb-4">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass">
-            <MessageSquare className="h-8 w-8 text-white" />
+            <HonestBoxIcon className="h-8 w-8 text-white" />
           </div>
           <CardTitle className="text-2xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             {isLogin ? "Welcome Back" : "Create Account"}

@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { CheckCircle, Copy, Link, MessageSquare, Moon, Share2, Sun } from "lucide-react";
+import { CheckCircle, Copy, Link, Moon, Share2, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -153,7 +154,7 @@ const FeedbackRequest = () => {
       <div className="container mx-auto px-4 max-w-2xl relative z-10">
         <div className="text-center mb-12">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-6 shadow-glass">
-            <MessageSquare className="h-8 w-8 text-white" />
+            <HonestBoxIcon className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             {existingRequest ? "Your Feedback Link" : "Request Anonymous Feedback"}

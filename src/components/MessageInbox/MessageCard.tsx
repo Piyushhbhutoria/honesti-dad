@@ -1,7 +1,8 @@
 import SocialShareButtons from "@/components/SocialShareButtons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, MessageSquare } from "lucide-react";
+import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
+import { Clock } from "lucide-react";
 
 interface Message {
   id: string;
@@ -43,7 +44,7 @@ const MessageCard = ({ message, index }: MessageCardProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-2 shadow-glass">
-              <MessageSquare className="h-4 w-4 text-white" />
+              <HonestBoxIcon className="h-4 w-4 text-white" />
             </div>
             <CardTitle className="text-lg text-foreground">Anonymous Message</CardTitle>
             {!message.is_read && (

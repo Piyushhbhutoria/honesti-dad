@@ -3,9 +3,10 @@ import ThemeToggle from "@/components/ui/theme-toggle";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { LogIn, LogOut, MessageSquare, Send, User } from "lucide-react";
+import { LogIn, LogOut, Send, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import HonestBoxIcon from "./ui/HonestBoxIcon";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ const Header = () => {
         <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="bg-gradient-to-br from-primary to-primary/90 p-2 rounded-xl shadow-inner-light">
-              <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              <HonestBoxIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
               HonestBox
@@ -110,7 +111,7 @@ const Header = () => {
           onClick={() => navigate('/')}
         >
           <div className="bg-gradient-to-br from-primary to-primary/90 p-2 rounded-xl shadow-inner-light">
-            <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            <HonestBoxIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
           <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             HonestBox

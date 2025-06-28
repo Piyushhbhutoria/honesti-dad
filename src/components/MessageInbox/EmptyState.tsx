@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Sparkles } from "lucide-react";
+import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
+import { Sparkles } from "lucide-react";
 
 interface EmptyStateProps {
   onCreateLink: () => void;
@@ -15,7 +16,7 @@ const EmptyState = ({ onCreateLink }: EmptyStateProps) => {
 
       <div className="glass-card p-8 max-w-md mx-auto relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <div className="glass-card bg-primary/10 p-4 w-fit mx-auto mb-6">
-          <MessageSquare className="h-12 w-12 text-primary mx-auto" />
+          <HonestBoxIcon className="h-12 w-12 text-primary mx-auto" />
         </div>
 
         <div className="flex items-center justify-center gap-2 mb-2">
@@ -32,7 +33,7 @@ const EmptyState = ({ onCreateLink }: EmptyStateProps) => {
           variant="gradient-primary"
           className="px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
         >
-          <MessageSquare className="h-4 w-4 mr-2" />
+          <HonestBoxIcon className="h-4 w-4 mr-2" />
           Create Your Link
         </Button>
       </div>
