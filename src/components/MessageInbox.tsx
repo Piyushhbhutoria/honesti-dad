@@ -94,7 +94,10 @@ const MessageInbox = () => {
         </div>
 
         {messages.length === 0 && (
-          <EmptyState onCreateLink={() => navigate('/request')} />
+          <EmptyState
+            hasExistingRequest={!!feedbackRequest}
+            onCreateLink={!feedbackRequest ? () => navigate('/request') : undefined}
+          />
         )}
       </div>
     </section>

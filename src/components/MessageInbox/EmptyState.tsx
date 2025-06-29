@@ -3,10 +3,11 @@ import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Sparkles } from "lucide-react";
 
 interface EmptyStateProps {
-  onCreateLink: () => void;
+  onCreateLink?: () => void;
+  hasExistingRequest?: boolean;
 }
 
-const EmptyState = ({ onCreateLink }: EmptyStateProps) => {
+const EmptyState = ({ onCreateLink, hasExistingRequest = false }: EmptyStateProps) => {
   return (
     <div className="text-center py-12 relative">
       {/* Subtle animated background decoration */}
@@ -24,18 +25,32 @@ const EmptyState = ({ onCreateLink }: EmptyStateProps) => {
           <Sparkles className="h-4 w-4 text-primary animate-pulse" />
         </div>
 
-        <p className="text-foreground/70 mb-6 leading-relaxed">
-          Share your link to start receiving anonymous feedback from friends, colleagues, and anyone you trust!
-        </p>
+        {hasExistingRequest ? (
+          <>
+            <p className="text-foreground/70 mb-4 leading-relaxed">
+              Your feedback link is ready! Share it to start receiving anonymous messages from friends, colleagues, and anyone you trust.
+            </p>
 
-        <Button
-          onClick={onCreateLink}
-          variant="gradient-primary"
-          className="px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
-        >
-          <HonestBoxIcon className="h-4 w-4 mr-2" />
-          Create Your Link
-        </Button>
+            <p className="text-sm text-foreground/60">
+              Use the Share and Copy buttons above to spread the word! 📢
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-foreground/70 mb-6 leading-relaxed">
+              Share your link to start receiving anonymous feedback from friends, colleagues, and anyone you trust!
+            </p>
+
+            <Button
+              onClick={onCreateLink}
+              variant="gradient-primary"
+              className="px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
+            >
+              <HonestBoxIcon className="h-4 w-4 mr-2" />
+              Create Your Link
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
