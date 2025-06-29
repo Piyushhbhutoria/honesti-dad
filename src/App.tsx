@@ -1,11 +1,12 @@
-
 import ProtectedRoute from "@/components/ProtectedRoute";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { initializeAnalytics, trackPageView } from "@/lib/analytics";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FeedbackRequest from "./components/FeedbackRequest";
 import SendFeedback from "./components/SendFeedback";
@@ -18,37 +19,49 @@ import TestReset from "./pages/TestReset";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <PWAInstallPrompt />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            {import.meta.env.DEV && (
-              <>
-                <Route path="/debug-reset" element={<DebugReset />} />
-                <Route path="/test-reset" element={<TestReset />} />
-              </>
-            )}
-            <Route path="/feedback/:slug" element={<SendFeedback />} />
-            <Route path="/" element={<Index />} />
-            <Route path="/request" element={
-              <ProtectedRoute>
-                <FeedbackRequest />
-              </ProtectedRoute>
-            } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+function App() {
+  useEffect(() => {
+    // Initialize Google Analytics
+    initializeAnalytics();
+
+    // Track initial page view
+    trackPageView(window.location.pathname, document.title);
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <PWAInstallPrompt />
+          <BrowserRouter>
+            <div className="transition-colors duration-300 ease-in-out">
+              <Routes>
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                {import.meta.env.DEV && (
+                  <>
+                    <Route path="/debug-reset" element={<DebugReset />} />
+                    <Route path="/test-reset" element={<TestReset />} />
+                  </>
+                )}
+                <Route path="/feedback/:slug" element={<SendFeedback />} />
+                <Route path="/" element={<Index />} />
+                <Route path="/request" element={
+                  <ProtectedRoute>
+                    <FeedbackRequest />
+                  </ProtectedRoute>
+                } />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

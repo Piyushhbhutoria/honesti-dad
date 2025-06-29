@@ -4,6 +4,7 @@ import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { trackError, trackFeedbackRequestCreated, trackFeedbackRequestShared, trackPageView } from "@/lib/analytics";
 import { checkRateLimit, formatResetTime, RATE_LIMITS } from "@/lib/rateLimiter";
 import { getFeedbackURL } from "@/lib/urlUtils";
 import { sanitizeText, validateName } from "@/lib/validation";
@@ -18,6 +19,11 @@ const FeedbackRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { user, theme, toggleTheme } = useAuth();
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackPageView('/request', 'Request Feedback');
+  }, []);
 
   // Check for existing feedback request
   const { data: existingRequest, isLoading: checkingExisting } = useQuery({
@@ -97,9 +103,15 @@ const FeedbackRequest = () => {
       toast.success("Your feedback link has been generated! 🎉");
       // Refresh the page to show the existing request
       window.location.reload();
+
+      // Track feedback request created event
+      trackFeedbackRequestCreated();
     } catch (error) {
       console.error('Error creating feedback request:', error);
       toast.error("Failed to generate link. Please try again.");
+
+      // Track error event
+      trackError('Failed to create feedback request', 'FeedbackRequest.generateFeedbackLink');
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +138,13 @@ const FeedbackRequest = () => {
 
     const url = getFeedbackUrl();
     navigator.clipboard.writeText(url);
+
+    // Track copy action
+    trackFeedbackRequestShared('copy_link');
+
     toast.success("Link copied to clipboard!");
+
+    // Track feedback request shared event (this will be handled by individual tracking calls)
   };
 
   const handleShare = () => {
@@ -140,6 +158,9 @@ const FeedbackRequest = () => {
 
     const url = getFeedbackUrl();
     if (navigator.share) {
+      // Track native share action
+      trackFeedbackRequestShared('social');
+
       navigator.share({
         title: `Send me anonymous feedback`,
         text: `Share your honest thoughts with me anonymously`,

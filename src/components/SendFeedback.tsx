@@ -4,11 +4,12 @@ import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { trackError, trackFeedbackSent, trackPageView } from "@/lib/analytics";
 import { checkRateLimit, formatResetTime, RATE_LIMITS } from "@/lib/rateLimiter";
 import { sanitizeMessage, validateMessage } from "@/lib/validation";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Moon, Send, Shield, Sun } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,6 +19,11 @@ const SendFeedback = () => {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { theme, toggleTheme } = useAuth();
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackPageView(`/feedback/${slug}`, `Send Feedback - ${slug}`);
+  }, [slug]);
 
   // Fetch feedback request by slug
   const { data: feedbackRequest, isLoading } = useQuery({
@@ -80,6 +86,9 @@ const SendFeedback = () => {
 
       if (error) throw error;
 
+      // Track successful feedback submission
+      trackFeedbackSent(feedbackRequest.id);
+
       toast.success("Your anonymous message has been sent! 🎉");
       setMessage("");
 
@@ -89,6 +98,10 @@ const SendFeedback = () => {
       }, 2000);
     } catch (error) {
       console.error('Error sending message:', error);
+
+      // Track error
+      trackError('Failed to send feedback message', 'SendFeedback.handleSubmit');
+
       toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);

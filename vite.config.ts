@@ -14,9 +14,9 @@ export default defineConfig(({ mode }) => ({
       'X-XSS-Protection': '1; mode=block',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-      'Content-Security-Policy': mode === 'development'
-        ? "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co https://*.supabase.in data: blob:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co;"
-        : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self';"
+      // 'Content-Security-Policy': mode === 'development'
+      //   ? "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co https://*.supabase.in data: blob:; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co;"
+      //   : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self';"
     }
   },
   plugins: [

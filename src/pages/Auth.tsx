@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { supabase } from "@/integrations/supabase/client";
+import { trackError, trackPageView, trackUserLogin, trackUserSignUp } from "@/lib/analytics";
 import { getAuthRedirectURL, getResetPasswordURL } from "@/lib/urlUtils";
 import { Lock, Mail, Shield, User } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -21,6 +22,9 @@ const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Track page view
+    trackPageView('/auth', 'Authentication');
+
     // Check if user is already logged in
     const checkUser = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -42,6 +46,9 @@ const Auth = () => {
       });
 
       if (error) {
+        // Track login error
+        trackError('Login failed', 'Auth.handleLogin');
+
         if (error.message.includes('Invalid login credentials')) {
           toast.error("Invalid email or password. Please check your credentials and try again.");
         } else {
@@ -50,9 +57,14 @@ const Auth = () => {
         return;
       }
 
+      // Track successful login
+      trackUserLogin('email');
+
       toast.success("Welcome back!");
       navigate('/');
     } catch (error) {
+      // Track unexpected error
+      trackError('Unexpected login error', 'Auth.handleLogin');
       toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -78,6 +90,9 @@ const Auth = () => {
       });
 
       if (error) {
+        // Track signup error
+        trackError('Signup failed', 'Auth.handleSignup');
+
         if (error.message.includes('User already registered')) {
           toast.error("An account with this email already exists. Please try logging in instead.");
         } else {
@@ -86,9 +101,14 @@ const Auth = () => {
         return;
       }
 
+      // Track successful signup
+      trackUserSignUp('email');
+
       toast.success("Account created successfully! Please check your email to verify your account.");
       setIsLogin(true);
     } catch (error) {
+      // Track unexpected error
+      trackError('Unexpected signup error', 'Auth.handleSignup');
       toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -138,13 +158,20 @@ const Auth = () => {
       });
 
       if (error) {
+        // Track Google sign-in error
+        trackError('Google sign-in failed', 'Auth.handleGoogleSignIn');
         toast.error(error.message);
         return;
       }
 
+      // Track Google sign-in attempt (success will be tracked on redirect)
+      trackUserLogin('google');
+
       // The user will be redirected to Google for authentication
       // and then back to the redirectTo URL after successful authentication
     } catch (error) {
+      // Track unexpected error
+      trackError('Unexpected Google sign-in error', 'Auth.handleGoogleSignIn');
       toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
