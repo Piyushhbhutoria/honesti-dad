@@ -6,7 +6,7 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm">
             Made with ❤️ by{" "}
             <a 
-              href="https://www.linkedin.com/in/piyushh-bhutoria/"
+              href="https://piyushhbhutoria.github.io/"
               target="_blank" 
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80 transition-colors duration-300 font-medium"
