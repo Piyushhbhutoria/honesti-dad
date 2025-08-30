@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => ({
       },
     },
     sourcemap: mode !== 'production',
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -48,6 +49,16 @@ export default defineConfig(({ mode }) => ({
           ui: ['@radix-ui/react-dialog', '@radix-ui/react-toast', '@radix-ui/react-tooltip'],
           supabase: ['@supabase/supabase-js'],
           utils: ['clsx', 'tailwind-merge', 'class-variance-authority'],
+        },
+        assetFileNames: (assetInfo) => {
+          const extType = assetInfo.name?.split('.').at(1);
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType ?? '')) {
+            return `assets/images/[name]-[hash][extname]`;
+          }
+          if (/css/i.test(extType ?? '')) {
+            return `assets/css/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
         },
       },
     },
