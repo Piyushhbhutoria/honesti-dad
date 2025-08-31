@@ -21,7 +21,6 @@ const ThemeToggle = ({ className = "", variant = "default" }: ThemeToggleProps) 
       variant="ghost"
       size="sm"
       className={`${baseClasses} ${variantClasses} ${className}`}
-      aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
     >
       {theme === 'light' ? (
         <Moon className="h-5 w-5 text-foreground/70" />
