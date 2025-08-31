@@ -53,35 +53,6 @@
     <meta name="msapplication-TileColor" content="#14B8A6" />
     <meta name="msapplication-config" content="/browserconfig.xml" />
 
-    <!-- Critical CSS optimization -->
-    <style>
-      /* Critical styles to prevent FOUC */
-      #root {
-        min-height: 100vh;
-      }
-      .transition-colors {
-        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 300ms;
-      }
-      /* Loading spinner styles */
-      .animate-spin {
-        animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-      .rounded-full { border-radius: 9999px; }
-      .border-b-2 { border-bottom-width: 2px; }
-      .h-8 { height: 2rem; }
-      .w-8 { width: 2rem; }
-      .flex { display: flex; }
-      .items-center { align-items: center; }
-      .justify-center { justify-content: center; }
-      .min-h-screen { min-height: 100vh; }
-    </style>
-
     <!-- Google Analytics - Deferred Loading -->
     <script>
       // Defer Google Analytics loading until after page load
@@ -117,23 +88,6 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <link rel="modulepreload" href="/src/main.tsx" />
-
-    <!-- CSS Loading Optimization -->
-    <script>
-      // Make CSS non-render blocking by converting blocking stylesheets to non-blocking
-      (function() {
-        var links = document.querySelectorAll('link[rel="stylesheet"]');
-        links.forEach(function(link) {
-          if (!link.hasAttribute('media')) {
-            link.setAttribute('media', 'print');
-            link.onload = function() {
-              this.media = 'all';
-              this.onload = null;
-            };
-          }
-        });
-      })();
-    </script>
 
     <!-- Service Worker Registration -->
     <script>
