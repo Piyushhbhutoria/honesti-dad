@@ -80,7 +80,7 @@ const Auth = () => {
         email,
         password,
         options: {
-          emailRedirectTo: getAuthRedirectURL('/welcome'),
+          emailRedirectTo: getAuthRedirectURL('/'),
           data: {
             name: name,
             app_name: 'HonestBox',
