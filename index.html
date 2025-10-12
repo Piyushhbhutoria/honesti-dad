@@ -77,18 +77,34 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- Service Worker Registration -->
-    <script>
+    <!-- Service Worker Registration (only in production); unregister in preview/dev to avoid stale caches -->
+    <script type="module">
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
+        const isProd = import.meta.env && import.meta.env.PROD;
+
+        if (isProd) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then((registration) => {
+                console.log('SW registered: ', registration);
+              })
+              .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+              });
+          });
+        } else {
+          // In preview/dev: actively unregister any existing SW and clear caches to prevent blank screen
+          navigator.serviceWorker.getRegistrations().then((regs) => {
+            regs.forEach((reg) => reg.unregister());
+          });
+          if (window.caches) {
+            caches.keys().then((keys) => {
+              keys.forEach((key) => {
+                if (key.startsWith('honestbox-')) caches.delete(key);
+              });
             });
-        });
+          }
+        }
       }
     </script>
   </body>
