@@ -2,102 +2,215 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+/* Frosted Glass Design System - Teal/Emerald Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Light Theme - Teal Accent */
+    --background: 220 13% 98%;
+    /* #F9FAFB */
+    --foreground: 210 11% 15%;
+    /* #1F2937 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100% / 0.6;
+    /* rgba(255,255,255,0.6) */
+    --card-foreground: 210 11% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100% / 0.7;
+    --popover-foreground: 210 11% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 178 78% 40%;
+    /* Teal #14B8A6 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 100% / 0.08;
+    --secondary-foreground: 210 11% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 100% / 0.05;
+    --muted-foreground: 220 9% 46%;
+    /* #6B7280 */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 178 78% 40%;
+    /* Teal #14B8A6 */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 0% / 0.05;
+    /* rgba(0,0,0,0.05) */
+    --input: 0 0% 100% / 0.7;
+    /* rgba(255,255,255,0.7) */
+    --ring: 178 78% 40% / 0.3;
+    /* ring-primary/30 */
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Frosted glass specific variables */
+    --glass-light: rgba(255, 255, 255, 0.6);
+    --glass-input: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 100% / 0.6;
+    --sidebar-foreground: 210 11% 15%;
+    --sidebar-primary: 178 78% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 100% / 0.08;
+    --sidebar-accent-foreground: 210 11% 15%;
+    --sidebar-border: 0 0% 0% / 0.05;
+    --sidebar-ring: 178 78% 40% / 0.3;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    /* Dark Theme - Emerald Accent */
+    --background: 222 84% 5%;
+    /* #0F172A */
     --foreground: 210 40% 98%;
+    /* #F8FAFC */
 
-    --card: 222.2 84% 4.9%;
+    --card: 0 0% 100% / 0.05;
+    /* rgba(255,255,255,0.05) */
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 0 0% 100% / 0.07;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 158 64% 52%;
+    /* Emerald #10B981 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 0 0% 100% / 0.05;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 100% / 0.05;
+    --muted-foreground: 215 20% 65%;
+    /* #94A3B8 */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 158 64% 52%;
+    /* Emerald #10B981 */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 0 0% 100% / 0.1;
+    /* rgba(255,255,255,0.1) */
+    --input: 0 0% 100% / 0.07;
+    /* rgba(255,255,255,0.07) */
+    --ring: 158 64% 52% / 0.3;
+    /* ring-primary/30 */
+
+    /* Frosted glass dark theme variables */
+    --glass-light: rgba(255, 255, 255, 0.05);
+    --glass-input: rgba(255, 255, 255, 0.07);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.6);
+    --inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    --sidebar-background: 0 0% 100% / 0.05;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 158 64% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 0 0% 100% / 0.05;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 0 0% 100% / 0.1;
+    --sidebar-ring: 158 64% 52% / 0.3;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-300 ease-in-out;
   }
 
   body {
     @apply bg-background text-foreground;
+    /* Add subtle background gradient */
+    background: linear-gradient(135deg,
+        hsl(var(--background)) 0%,
+        hsl(var(--background)) 100%);
+    min-height: 100vh;
   }
+
+  /* Frosted Glass Utilities */
+  .glass {
+    background: var(--glass-light);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow), var(--inner-shadow);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-input {
+    background: var(--glass-input);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-button {
+    @apply glass rounded-xl;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-button:hover {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transform: translateY(-1px);
+    box-shadow: var(--glass-shadow-hover),
+      var(--inner-shadow);
+  }
+
+  .glass-header {
+    @apply glass;
+    border-bottom: 1px solid var(--glass-border);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+  /* Focus ring styles */
+  .focus-ring {
+    @apply focus:ring-2 focus:ring-primary/30 focus:ring-offset-2 focus:outline-none;
+  }
+
+  /* Shadow utilities for glass components */
+  .shadow-glass {
+    box-shadow: var(--glass-shadow), var(--inner-shadow);
+  }
+
+  .shadow-glass-hover {
+    box-shadow: var(--glass-shadow-hover), var(--inner-shadow);
+  }
+}
+
+/* Animation Utilities */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+  opacity: 0;
 }

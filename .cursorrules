@@ -1,0 +1,258 @@
+# HonestBox - Frosted Glass Theme Rules
+
+## Design System Overview
+
+This project uses a **Frosted Glass** design system with iOS-style elegance. All components should follow these established patterns and maintain visual consistency.
+
+## Core Theme Specifications
+
+### Color Palette
+
+- **Primary Accent**:
+  - Light theme: Teal (#14B8A6) - Use `text-primary`, `bg-primary`, `border-primary` for primary actions
+  - Dark theme: Emerald (#10B981) - Use `text-primary`, `bg-primary`, `border-primary` for primary actions
+- **Glass Backgrounds**:
+  - Light theme: `rgba(255,255,255,0.6)` for cards, `rgba(255,255,255,0.7)` for inputs
+  - Dark theme: `rgba(255,255,255,0.05)` for cards, `rgba(255,255,255,0.07)` for inputs
+- **Text Colors**:
+  - Light theme: `#1F2937` (`text-foreground`)
+  - Dark theme: `#F8FAFC` (`text-foreground`)
+  - Secondary text: `#6B7280` light / `#94A3B8` dark (`text-muted-foreground`)
+- **Background Colors**:
+  - Light theme: `#F9FAFB` (`bg-background`)
+  - Dark theme: `#0F172A` (`bg-background`)
+- **Border Colors**: `rgba(0,0,0,0.05)` light / `rgba(255,255,255,0.1)` dark
+
+### Glass Effect Classes (Already Defined)
+
+```css
+.glass - Basic frosted glass container with backdrop-blur-md
+.glass-card - Glass card with padding and rounded corners
+.glass-input - Enhanced glass input styling with focus states
+.glass-button - Glass button styling
+.glass-header - Glass header styling
+.focus-ring - Consistent focus ring with ring-primary/30
+```
+
+### Essential Styling Patterns
+
+#### 1. Background Gradients
+
+```css
+/* Main page backgrounds */
+bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 
+dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950
+```
+
+#### 2. Animated Background Elements
+
+Always include subtle animated background blobs using primary colors:
+
+```tsx
+<div className="absolute inset-0 overflow-hidden pointer-events-none">
+  <div className="absolute top-20 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+  <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+</div>
+```
+
+#### 3. Glass Cards
+
+```tsx
+<Card className="glass shadow-glass border-0 hover:shadow-glass-hover transition-all duration-300">
+```
+
+#### 4. Glass Input Fields
+
+```tsx
+<Input className="glass-input focus-ring transition-colors duration-300 ease-in-out" />
+```
+
+#### 5. Primary Buttons
+
+```tsx
+<Button variant="gradient-primary" className="transition-all duration-300 transform hover:scale-105">
+```
+
+#### 6. Icon Backgrounds
+
+```tsx
+<div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-3 shadow-glass">
+  <Icon className="h-8 w-8 text-white" />
+</div>
+```
+
+#### 7. Gradient Text
+
+```tsx
+<h1 className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+```
+
+## Component Patterns
+
+### Headers
+
+- Use `glass-header` class
+- Include theme toggle button with sun/moon icons
+- Apply primary color scheme for active states
+- Use `text-primary` for branding and CTAs
+
+### Forms
+
+- All inputs should use glass styling: `glass-input focus-ring`
+- Buttons should use `glass-button` or `gradient-primary` variants
+- Form containers should have `glass shadow-glass border-0`
+- Apply `transition-colors duration-300 ease-in-out` for theme switching
+
+### Cards & Containers
+
+- Use `glass shadow-glass` for main containers
+- Add `hover:shadow-glass-hover` for interactive elements
+- Include `relative z-10` for proper layering over background elements
+
+### Loading States
+
+- Use glass containers with primary accent colors
+- Include animated spinners with `border-primary`
+
+### Information Sections
+
+- Use subtle glass cards with primary accents:
+
+```tsx
+<div className="glass bg-primary/5 border-primary/10 p-4">
+  <Shield className="h-4 w-4 text-primary" />
+</div>
+```
+
+### Focus States
+
+- Use `focus-ring` class for consistent focus styling
+- Apply `ring-primary/30` for focused elements
+- Combine with `transition-colors duration-300 ease-in-out`
+
+## Animation Guidelines
+
+### Hover Effects
+
+- Use `transform hover:scale-105` for buttons
+- Apply `transition-all duration-300` for smooth animations
+- Combine with `hover:shadow-glass-hover` for glass elements
+
+### Background Animations
+
+- Use `animate-pulse` with different delays (0ms, 500ms, 1000ms)
+- Apply `blur-3xl` for soft background effects
+- Use primary color variations with low opacity (5-10%)
+
+### Theme Transitions
+
+- Apply `transition-colors duration-300 ease-in-out` globally
+- Ensure smooth color transitions between light/dark themes
+
+## Theme Integration
+
+### Light/Dark Mode Support
+
+- All components must work in both light and dark themes
+- Use semantic color classes: `text-primary`, `bg-primary`, `border-primary`
+- Apply `dark:` prefixes for dark mode variants
+- Light theme uses teal (#14B8A6), dark theme uses emerald (#10B981)
+
+### Theme Toggle Implementation
+
+```tsx
+const { theme, toggleTheme } = useAuth();
+// Use theme state for conditional styling
+```
+
+### Color Usage Guidelines
+
+- **Primary colors**: Use for CTAs, active states, and brand elements only
+- **Text hierarchy**: `text-primary` for headings/CTAs, `text-foreground` for body text
+- **Glass effects**: Stronger in light mode, more subtle in dark mode
+- **Focus states**: Always use `focus-ring` class with `ring-primary/30`
+
+## File Structure Patterns
+
+### Component Organization
+
+- Keep UI components in `src/components/ui/`
+- Page components in `src/pages/`
+- Shared components in `src/components/`
+
+### Styling Approach
+
+- Prefer Tailwind utility classes over custom CSS
+- Use established glass utility classes
+- Use semantic color classes (`text-primary`, `bg-primary`) over hardcoded colors
+- Maintain consistent spacing with Tailwind scale
+
+## Code Quality Rules
+
+### TypeScript
+
+- Always use proper TypeScript types
+- Import types from `@/integrations/supabase/types` when needed
+- Use proper React.FC types for components
+
+### Imports
+
+- Use `@/` prefix for internal imports
+- Group imports: React, external libraries, internal components, utilities
+
+### Error Handling
+
+- Use `toast.error()` and `toast.success()` for user feedback
+- Include proper loading states with glass styling
+- Handle async operations with try/catch blocks
+
+## Accessibility
+
+- Maintain proper contrast ratios with glass backgrounds
+- Use semantic HTML elements
+- Include proper ARIA labels where needed
+- Ensure keyboard navigation works with glass elements
+- Focus states must be clearly visible with `focus-ring` class
+
+## Performance
+
+- Use CSS backdrop-filter efficiently (backdrop-blur-md)
+- Minimize layout shifts with consistent sizing
+- Optimize animations for 60fps performance
+- Use CSS custom properties for theme switching
+
+## Examples to Follow
+
+- `src/pages/Auth.tsx` - Glass forms and modals with teal/emerald theme
+- `src/components/Header.tsx` - Glass header with theme toggle
+- `src/components/Hero.tsx` - Animated backgrounds and glass cards
+- `src/pages/ResetPassword.tsx` - Complete glass page layout
+- `src/components/SendFeedback.tsx` - Form styling with new theme
+- `src/components/FeedbackRequest.tsx` - Card styling with primary colors
+
+## Never Do
+
+- ❌ Use hardcoded teal/emerald colors (use semantic `text-primary`, `bg-primary` instead)
+- ❌ Create solid backgrounds (always use glass effects)
+- ❌ Skip animated background elements on full-page layouts
+- ❌ Use harsh shadows (only use glass shadows)
+- ❌ Mix design systems (stick to frosted glass consistently)
+- ❌ Forget dark mode support
+- ❌ Create components without hover effects
+- ❌ Use teal/emerald colors for success/error states (reserve green/red for those)
+- ❌ Forget to add `transition-colors duration-300 ease-in-out` for theme switching
+- ❌ Use `glass-card bg-glass-light border-glass-border` (use `glass-input` for inputs)
+- ❌ Hardcode color values (use CSS custom properties and semantic classes)
+
+## Current Theme Implementation
+
+The app now uses:
+
+- **Light Mode**: Teal (#14B8A6) primary with enhanced glass effects
+- **Dark Mode**: Emerald (#10B981) primary with subtle glass effects
+- **Semantic Classes**: `text-primary`, `bg-primary`, `border-primary` for consistency
+- **Glass System**: Updated with `glass-input` and `focus-ring` utilities
+- **Transitions**: Global `transition-colors duration-300 ease-in-out` for smooth theme switching
+
+Remember: Every component should feel like it belongs to a cohesive, elegant iOS-style frosted glass design system with the new teal/emerald color palette.
