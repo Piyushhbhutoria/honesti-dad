@@ -1,8 +1,7 @@
-import InstagramSharingDialog from "@/components/InstagramSharingDialog";
+
 import { Button } from "@/components/ui/button";
-import HonestBoxIcon from "@/components/ui/HonestBoxIcon";
-import { Copy, Instagram } from "lucide-react";
-import { useState } from "react";
+import { MessageSquare, Copy } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { toast } from "sonner";
 
 interface FeedbackRequest {
@@ -19,86 +18,72 @@ interface InboxHeaderProps {
 }
 
 const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: InboxHeaderProps) => {
-  const [showInstagramGuide, setShowInstagramGuide] = useState(false);
-  const [contentCopied, setContentCopied] = useState(false);
-
-  const handleInstagramShare = async () => {
+  const handleInstagramShare = () => {
     if (!feedbackRequest) {
       onShare(); // Fallback to original share behavior if no feedback request
       return;
     }
 
     const feedbackUrl = `${window.location.origin}/feedback/${feedbackRequest.unique_slug}`;
-    const shareText = `Send me an anonymous message! 💬`;
-    const fullShareText = `${shareText}\n\n${feedbackUrl}`;
-
-    // Copy content to clipboard first
-    try {
-      await navigator.clipboard.writeText(fullShareText);
-      setContentCopied(true);
-      setShowInstagramGuide(true);
-    } catch (error) {
-      toast.error("❌ Failed to copy to clipboard", {
-        description: "Please manually copy your link and share on Instagram"
+    const shareText = `Send me an anonymous message! 💬\n\n${feedbackUrl}`;
+    
+    // Copy the text and link to clipboard first
+    navigator.clipboard.writeText(shareText).then(() => {
+      toast.success("Message and link copied! Now opening Instagram...", {
+        description: "Paste this in your Instagram story after it opens"
       });
+    });
+
+    // Detect if user is on mobile
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // Try to open Instagram app directly
+      const instagramUrl = `instagram://story-camera`;
+      window.location.href = instagramUrl;
+      
+      // Fallback to web version if app doesn't open
+      setTimeout(() => {
+        window.open('https://www.instagram.com/', '_blank');
+      }, 2000);
+    } else {
+      // For desktop, open Instagram web directly
+      window.open('https://www.instagram.com/', '_blank');
     }
   };
 
-  const handleCloseInstagramGuide = () => {
-    setShowInstagramGuide(false);
-    setContentCopied(false);
-  };
-
   return (
-    <>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-128 h-128 bg-primary/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+    <div className="text-center mb-12">
+      <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-3 rounded-2xl w-fit mx-auto mb-6">
+        <MessageSquare className="h-8 w-8 text-white" />
       </div>
-
-      <div className="relative z-10 text-center mb-12">
-        <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-3 w-fit mx-auto mb-6 shadow-glass">
-          <HonestBoxIcon className="h-8 w-8 text-white" />
-        </div>
-        <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-          Your Message Inbox
-        </h2>
-        <p className="text-lg text-muted-foreground mb-8">
-          {messagesCount > 0
-            ? "Here are the anonymous messages you've received"
-            : "No messages yet - share your link to start receiving feedback!"}
-        </p>
-
-        {feedbackRequest && <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            onClick={handleInstagramShare}
-            variant="gradient-primary"
-            className="px-6 py-3 font-semibold border-0 transition-all duration-300 transform hover:scale-105"
-          >
-            <Instagram className="h-4 w-4 mr-2" />
-            Share to Instagram
-          </Button>
-          <Button
-            onClick={onCopyLink}
-            variant="glass-primary"
-            className="px-6 py-3 font-semibold transition-all duration-300 transform hover:scale-105"
-          >
-            <Copy className="h-4 w-4 mr-2" />
-            Copy Link
-          </Button>
-        </div>}
+      <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+        Your Message Inbox
+      </h2>
+      <p className="text-lg text-gray-600 mb-8">
+        {messagesCount > 0 
+          ? "Here are the anonymous messages you've received" 
+          : "No messages yet - share your link to start receiving feedback!"}
+      </p>
+      
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button
+          onClick={handleInstagramShare}
+          className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+        >
+          <Instagram className="h-4 w-4 mr-2" />
+          {feedbackRequest ? "Share to Instagram" : "Create Feedback Link"}
+        </Button>
+        <Button
+          onClick={onCopyLink}
+          variant="outline" 
+          className="border-purple-200 text-purple-600 hover:bg-purple-50 px-6 py-3 rounded-xl font-semibold transition-all duration-300"
+        >
+          <Copy className="h-4 w-4 mr-2" />
+          {feedbackRequest ? "Copy Link" : "Get Started"}
+        </Button>
       </div>
-
-      <InstagramSharingDialog
-        isOpen={showInstagramGuide}
-        onClose={handleCloseInstagramGuide}
-        feedbackRequest={feedbackRequest}
-        onFallbackShare={onShare}
-        contentAlreadyCopied={contentCopied}
-      />
-    </>
+    </div>
   );
 };
 

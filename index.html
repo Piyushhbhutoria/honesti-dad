@@ -1,140 +1,40 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HonestBox - Anonymous Feedback Platform</title>
-    <meta name="description"
-      content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity through our secure platform." />
+    <meta name="description" content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity." />
     <meta name="author" content="HonestBox" />
 
     <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#14B8A6" />
+    <meta name="theme-color" content="#8b5cf6" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="HonestBox" />
     <link rel="manifest" href="/manifest.json" />
-
-    <!-- Resource Optimization -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
-
     <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" href="/icon-192x192.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/icon-192x192.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
-    <link rel="apple-touch-icon" sizes="167x167" href="/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/placeholder.svg" />
 
-    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="HonestBox - Anonymous Feedback Platform" />
-    <meta property="og:description"
-      content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity through our secure platform." />
+    <meta property="og:description" content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/icon-512x512.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:site_name" content="HonestBox" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="HonestBox - Anonymous Feedback Platform" />
-    <meta name="twitter:description"
-      content="Get honest, anonymous feedback from friends and colleagues. Share your thoughts without revealing your identity." />
-    <meta name="twitter:image" content="/icon-512x512.png" />
-
-    <!-- Additional PWA Meta Tags -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="HonestBox" />
-    <meta name="msapplication-TileColor" content="#14B8A6" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
-
-    <!-- Critical CSS optimization -->
-    <style>
-      /* Critical styles to prevent FOUC */
-      #root {
-        min-height: 100vh;
-      }
-      .transition-colors {
-        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 300ms;
-      }
-      /* Loading spinner styles */
-      .animate-spin {
-        animation: spin 1s linear infinite;
-      }
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-      .rounded-full { border-radius: 9999px; }
-      .border-b-2 { border-bottom-width: 2px; }
-      .h-8 { height: 2rem; }
-      .w-8 { width: 2rem; }
-      .flex { display: flex; }
-      .items-center { align-items: center; }
-      .justify-center { justify-content: center; }
-      .min-h-screen { min-height: 100vh; }
-    </style>
-
-    <!-- Google Analytics - Deferred Loading -->
-    <script>
-      // Defer Google Analytics loading until after page load
-      window.addEventListener('load', function() {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-9JJDYZ5G68';
-        document.head.appendChild(script);
-        
-        script.onload = function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-
-          // Only initialize GA if measurement ID is properly set
-          const measurementId = 'G-9JJDYZ5G68';
-          if (measurementId && !measurementId.includes('VITE_')) {
-            gtag('js', new Date());
-            gtag('config', measurementId, {
-              page_title: document.title,
-              page_location: window.location.href,
-              cookie_flags: 'secure;samesite=strict',
-              // anonymize_ip: true,
-              // allow_google_signals: false,
-              // allow_ad_personalization_signals: false
-            });
-          }
-        };
-      });
-    </script>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <link rel="modulepreload" href="/src/main.tsx" />
-
-    <!-- CSS Loading Optimization -->
-    <script>
-      // Make CSS non-render blocking by converting blocking stylesheets to non-blocking
-      (function() {
-        var links = document.querySelectorAll('link[rel="stylesheet"]');
-        links.forEach(function(link) {
-          if (!link.hasAttribute('media')) {
-            link.setAttribute('media', 'print');
-            link.onload = function() {
-              this.media = 'all';
-              this.onload = null;
-            };
-          }
-        });
-      })();
-    </script>
-
+    
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
@@ -150,5 +50,4 @@
       }
     </script>
   </body>
-
 </html>

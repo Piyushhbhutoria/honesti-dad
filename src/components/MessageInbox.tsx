@@ -1,31 +1,21 @@
-import { getFeedbackURL } from "@/lib/urlUtils";
-import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
 import { toast } from "sonner";
-import EmptyState from "./MessageInbox/EmptyState";
-import InboxHeader from "./MessageInbox/InboxHeader";
-import LoadingState from "./MessageInbox/LoadingState";
-import MessageCard from "./MessageInbox/MessageCard";
+import { useNavigate } from "react-router-dom";
 import { useInboxData } from "./MessageInbox/useInboxData";
+import InboxHeader from "./MessageInbox/InboxHeader";
+import MessageCard from "./MessageInbox/MessageCard";
+import EmptyState from "./MessageInbox/EmptyState";
+import LoadingState from "./MessageInbox/LoadingState";
 
 const MessageInbox = () => {
+  const [thankedMessages, setThankedMessages] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
-  const {
-    messages,
-    feedbackRequest,
-    isLoading,
-    authLoading,
-    user,
-    markMessageAsRead
-  } = useInboxData();
+  const { messages, feedbackRequest, isLoading, authLoading, user } = useInboxData();
 
   const getFeedbackUrl = () => {
-    if (!feedbackRequest?.unique_slug) return null;
-    try {
-      return getFeedbackURL(feedbackRequest.unique_slug);
-    } catch (error) {
-      console.error('Error generating feedback URL:', error);
-      return null;
-    }
+    if (!feedbackRequest) return null;
+    return `${window.location.origin}/feedback/${feedbackRequest.unique_slug}`;
   };
 
   const handleCopyLink = () => {
@@ -54,8 +44,9 @@ const MessageInbox = () => {
     }
   };
 
-  const handleMarkAsRead = async (messageId: string) => {
-    await markMessageAsRead(messageId);
+  const handleThankSender = (messageId: string) => {
+    setThankedMessages(prev => new Set(prev).add(messageId));
+    toast.success("Thank you sent! The sender will know you appreciated their message. 💜");
   };
 
   if (authLoading || isLoading) {
@@ -68,14 +59,8 @@ const MessageInbox = () => {
   }
 
   return (
-    <section className="py-20 relative">
-      {/* Subtle background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 right-1/4 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-10 left-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-2xl"></div>
-      </div>
-
-      <div className="container mx-auto px-4 max-w-4xl relative z-10">
+    <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 max-w-4xl">
         <InboxHeader
           messagesCount={messages.length}
           feedbackRequest={feedbackRequest}
@@ -89,15 +74,14 @@ const MessageInbox = () => {
               key={message.id}
               message={message}
               index={index}
+              thankedMessages={thankedMessages}
+              onThankSender={handleThankSender}
             />
           ))}
         </div>
 
         {messages.length === 0 && (
-          <EmptyState
-            hasExistingRequest={!!feedbackRequest}
-            onCreateLink={!feedbackRequest ? () => navigate('/request') : undefined}
-          />
+          <EmptyState onCreateLink={() => navigate('/request')} />
         )}
       </div>
     </section>
