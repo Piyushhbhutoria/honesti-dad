@@ -1,46 +1,50 @@
 // Secure URL utilities to prevent open redirect attacks
 
-// Define allowed origins for production and development
-const ALLOWED_ORIGINS = {
-  production: ['https://honesti-dad.lovable.app'], // Replace with your actual production domain
-  development: [
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-  ]
-};
+// Define allowed origins and host suffixes for production and development
+const PRODUCTION_ORIGIN = 'https://honesti-dad.lovable.app';
+const EXPLICIT_ALLOWED_ORIGINS = [
+  PRODUCTION_ORIGIN,
+  'http://localhost:5173',
+  'http://localhost:8080',
+  'http://127.0.0.1:8080',
+];
+const ALLOWED_HOST_SUFFIXES = [
+  '.lovableproject.com',
+  '.lovable.app',
+];
 
 // Get the current environment
 const isDevelopment = import.meta.env.DEV || import.meta.env.NODE_ENV === 'development';
 
-// Get allowed origins for current environment
-const getAllowedOrigins = (): string[] => {
-  return isDevelopment
-    ? [...ALLOWED_ORIGINS.development, ...ALLOWED_ORIGINS.production]
-    : ALLOWED_ORIGINS.production;
-};
-
 // Validate if an origin is allowed
 export const isOriginAllowed = (origin: string): boolean => {
-  const allowedOrigins = getAllowedOrigins();
-  return allowedOrigins.includes(origin);
+  try {
+    const url = new URL(origin);
+    const host = url.host;
+
+    if (EXPLICIT_ALLOWED_ORIGINS.includes(origin)) return true;
+    return ALLOWED_HOST_SUFFIXES.some((suffix) => host.endsWith(suffix));
+  } catch {
+    return false;
+  }
 };
 
 // Get a safe base URL
 export const getSafeBaseURL = (): string => {
   const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
 
-  // In development, allow localhost origins
-  if (isDevelopment && currentOrigin.includes('localhost')) {
+  // In development, always use the current origin (preview and local)
+  if (isDevelopment && currentOrigin) {
     return currentOrigin;
   }
 
   // Check if current origin is in our allowed list
-  if (isOriginAllowed(currentOrigin)) {
+  if (currentOrigin && isOriginAllowed(currentOrigin)) {
     return currentOrigin;
   }
 
   // Fallback to production URL if current origin is not allowed
-  return ALLOWED_ORIGINS.production[0] || 'https://honesti-dad.lovable.app/';
+  return PRODUCTION_ORIGIN;
 };
 
 // Safely construct feedback URLs

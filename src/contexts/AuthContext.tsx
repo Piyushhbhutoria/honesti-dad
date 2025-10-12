@@ -39,23 +39,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [theme]);
 
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    // Listen for auth changes FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (import.meta.env.DEV) {
+        console.log('Auth state changed:', event);
+      }
       setUser(session?.user ?? null);
       setLoading(false);
-    };
+    });
 
-    getInitialSession();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
     return () => {
       subscription.unsubscribe();
