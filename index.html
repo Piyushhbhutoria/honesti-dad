@@ -14,7 +14,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="HonestBox" />
-    <link rel="manifest" href="/manifest.json" />
+    <!--
+      IMPORTANT (Preview stability):
+      In Lovable preview, asset requests like /manifest.json may be redirected through an auth bridge,
+      which can be blocked by CORS for the browser's manifest fetch.
+      This doesn't matter for local development but can cause the preview to appear "stuck".
+      So we only attach the manifest in production builds.
+    -->
+    <script type="module">
+      if (import.meta.env?.PROD) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = '/manifest.json';
+        document.head.appendChild(link);
+      }
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" />
