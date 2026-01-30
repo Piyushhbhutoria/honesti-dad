@@ -49,7 +49,7 @@ const SendFeedback = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check rate limiting first
+    // Client-side rate limiting still provides UX benefit for normal users
     const { isLimited, resetTime } = checkRateLimit(RATE_LIMITS.SEND_MESSAGE);
     if (isLimited) {
       const timeRemaining = formatResetTime(resetTime);
@@ -72,17 +72,38 @@ const SendFeedback = () => {
     setIsSubmitting(true);
 
     try {
-      // Sanitize the message before storing
+      // Sanitize the message before sending
       const sanitizedMessage = sanitizeMessage(validation.data);
 
-      const { error } = await supabase
-        .from('anonymous_messages')
-        .insert({
+      // Use edge function for server-side rate limiting
+      const { data, error } = await supabase.functions.invoke('send-message', {
+        body: {
           feedback_request_id: feedbackRequest.id,
           content: sanitizedMessage
-        });
+        }
+      });
 
-      if (error) throw error;
+      if (error) {
+        // Handle rate limit error from server
+        if (error.message?.includes('429') || data?.reset_in_seconds) {
+          const seconds = data?.reset_in_seconds || 60;
+          const minutes = Math.ceil(seconds / 60);
+          toast.error(`Too many messages sent. Please wait ${minutes} minute${minutes > 1 ? 's' : ''} before sending another message.`);
+          return;
+        }
+        throw error;
+      }
+
+      // Check for error in response body
+      if (data?.error) {
+        if (data.reset_in_seconds) {
+          const seconds = data.reset_in_seconds;
+          const minutes = Math.ceil(seconds / 60);
+          toast.error(`Too many messages sent. Please wait ${minutes} minute${minutes > 1 ? 's' : ''} before sending another message.`);
+          return;
+        }
+        throw new Error(data.error);
+      }
 
       // Track successful feedback submission
       trackFeedbackSent(feedbackRequest.id);
