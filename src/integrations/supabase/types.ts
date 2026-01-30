@@ -105,11 +105,40 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          count: number
+          created_at: string
+          key: string
+          reset_at: string
+        }
+        Insert: {
+          count?: number
+          created_at?: string
+          key: string
+          reset_at?: string
+        }
+        Update: {
+          count?: number
+          created_at?: string
+          key?: string
+          reset_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      check_rate_limit: {
+        Args: {
+          p_key: string
+          p_max_attempts: number
+          p_window_seconds: number
+        }
+        Returns: boolean
+      }
       get_feedback_request_by_slug: {
         Args: { p_slug: string }
         Returns: {
@@ -120,6 +149,7 @@ export type Database = {
           unique_slug: string
         }[]
       }
+      get_rate_limit_reset_time: { Args: { p_key: string }; Returns: number }
     }
     Enums: {
       [_ in never]: never
