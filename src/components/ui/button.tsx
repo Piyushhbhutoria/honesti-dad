@@ -20,9 +20,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         glass: "glass-button bg-glass-light border-glass-border text-foreground hover:bg-glass-light/80",
         "glass-primary": "glass-button bg-primary/20 border-primary/20 text-primary hover:bg-primary/30",
-        "glass-teal": "glass-button bg-teal-500/20 border-teal-500/20 text-teal-600 dark:text-teal-400 hover:bg-teal-500/30",
-        "glass-emerald": "glass-button bg-emerald-500/20 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/30",
-        "gradient-primary": "bg-gradient-to-r from-teal-500 to-teal-600 dark:from-emerald-500 dark:to-emerald-600 text-white hover:from-teal-600 hover:to-teal-700 dark:hover:from-emerald-600 dark:hover:to-emerald-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105",
+        "gradient-primary": "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -91,7 +91,7 @@ const Header = () => {
         <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="bg-gradient-to-br from-primary to-primary/90 p-2 rounded-xl shadow-inner-light">
-              <HonestBoxIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              <HonestBoxIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
               HonestBox
@@ -111,7 +111,7 @@ const Header = () => {
           onClick={() => navigate('/')}
         >
           <div className="bg-gradient-to-br from-primary to-primary/90 p-2 rounded-xl shadow-inner-light">
-            <HonestBoxIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            <HonestBoxIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
           </div>
           <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             HonestBox

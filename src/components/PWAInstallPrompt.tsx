@@ -146,7 +146,7 @@ const PWAInstallPrompt = () => {
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-2 shadow-glass">
-            <Download className="h-4 w-4 text-white" />
+            <Download className="h-4 w-4 text-primary-foreground" />
           </div>
           <h3 className="font-semibold text-foreground">Install HonestBox</h3>
         </div>
