@@ -25,25 +25,23 @@ const SendFeedback = () => {
     trackPageView(`/feedback/${slug}`, `Send Feedback - ${slug}`);
   }, [slug]);
 
-  // Fetch feedback request by slug
+  // Fetch feedback request by slug using secure RPC function
+  // This prevents bulk harvesting of user names while allowing specific slug lookups
   const { data: feedbackRequest, isLoading } = useQuery({
     queryKey: ['feedback-request-by-slug', slug],
     queryFn: async () => {
       if (!slug) throw new Error('No slug provided');
 
       const { data, error } = await supabase
-        .from('feedback_requests')
-        .select('id, name, is_active')
-        .eq('unique_slug', slug)
-        .eq('is_active', true)
-        .single();
+        .rpc('get_feedback_request_by_slug', { p_slug: slug });
 
       if (error) {
         console.error('Error fetching feedback request:', error);
         throw error;
       }
 
-      return data;
+      // RPC returns an array, get the first result
+      return data && data.length > 0 ? data[0] : null;
     },
     enabled: !!slug,
   });
