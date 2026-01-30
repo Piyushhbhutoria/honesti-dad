@@ -179,7 +179,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen page-gradient flex items-center justify-center p-4 relative overflow-hidden">
       {/* Theme Toggle Button */}
       <div className="absolute top-4 right-4 z-20">
         <ThemeToggle />
@@ -195,7 +195,7 @@ const Auth = () => {
       <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <CardHeader className="text-center pb-4">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass">
-            <HonestBoxIcon className="h-8 w-8 text-white" />
+            <HonestBoxIcon className="h-8 w-8 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             {isLogin ? "Welcome Back" : "Create Account"}
@@ -210,11 +210,11 @@ const Auth = () => {
             <Button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full glass-button bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 transition-all duration-300 transform hover:scale-105 py-3 font-semibold"
+              className="w-full glass-button bg-card hover:bg-card/80 text-foreground border border-border transition-all duration-300 transform hover:scale-105 py-3 font-semibold"
             >
               {isLoading ? (
                 <div className="flex items-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-700 dark:border-gray-200 mr-2"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-foreground mr-2"></div>
                   Connecting...
                 </div>
               ) : (
@@ -232,10 +232,10 @@ const Auth = () => {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-300 dark:border-gray-600" />
+                <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-slate-900 px-2 text-gray-500 dark:text-gray-400">
+                <span className="bg-background px-2 text-muted-foreground">
                   Or continue with email
                 </span>
               </div>
@@ -305,7 +305,7 @@ const Auth = () => {
             >
               {isLoading ? (
                 <div className="flex items-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground mr-2"></div>
                   {isLogin ? "Signing in..." : "Creating account..."}
                 </div>
               ) : (
@@ -349,7 +349,7 @@ const Auth = () => {
       </Card>
 
       {showForgotPassword && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
           {/* Animated background elements for the modal */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/4 left-1/3 w-32 h-32 bg-primary/10 rounded-full blur-2xl animate-pulse"></div>
@@ -359,7 +359,7 @@ const Auth = () => {
           <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300 animate-in slide-in-from-bottom-4 zoom-in-95">
             <CardHeader className="text-center pb-4">
               <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass animate-pulse">
-                <Lock className="h-8 w-8 text-white" />
+                <Lock className="h-8 w-8 text-primary-foreground" />
               </div>
               <CardTitle className="text-xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
                 Reset Password
@@ -410,7 +410,7 @@ const Auth = () => {
                   >
                     {isLoading ? (
                       <div className="flex items-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
                         Sending...
                       </div>
                     ) : (

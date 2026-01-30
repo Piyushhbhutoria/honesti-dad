@@ -44,7 +44,7 @@ const MessageCard = ({ message, index }: MessageCardProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-2 shadow-glass">
-              <HonestBoxIcon className="h-4 w-4 text-white" />
+              <HonestBoxIcon className="h-4 w-4 text-primary-foreground" />
             </div>
             <CardTitle className="text-lg text-foreground">Anonymous Message</CardTitle>
             {!message.is_read && (

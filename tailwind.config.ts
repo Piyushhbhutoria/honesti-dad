@@ -52,6 +52,23 @@ export default {
     				DEFAULT: 'hsl(var(--card))',
     				foreground: 'hsl(var(--card-foreground))'
     			},
+    			/* Semantic status colors */
+    			success: {
+    				DEFAULT: 'hsl(var(--success))',
+    				foreground: 'hsl(var(--success-foreground))'
+    			},
+    			warning: {
+    				DEFAULT: 'hsl(var(--warning))',
+    				foreground: 'hsl(var(--warning-foreground))'
+    			},
+    			error: {
+    				DEFAULT: 'hsl(var(--error))',
+    				foreground: 'hsl(var(--error-foreground))'
+    			},
+    			info: {
+    				DEFAULT: 'hsl(var(--info))',
+    				foreground: 'hsl(var(--info-foreground))'
+    			},
     			sidebar: {
     				DEFAULT: 'hsl(var(--sidebar-background))',
     				foreground: 'hsl(var(--sidebar-foreground))',
@@ -66,22 +83,6 @@ export default {
     				light: 'var(--glass-light)',
     				input: 'var(--glass-input)',
     				border: 'var(--glass-border)'
-    			},
-    			teal: {
-    				'50': '#F0FDFA',
-    				'100': '#CCFBF1',
-    				'400': '#2DD4BF',
-    				'500': '#14B8A6',
-    				'600': '#0D9488',
-    				'950': '#042F2E'
-    			},
-    			emerald: {
-    				'50': '#ECFDF5',
-    				'100': '#D1FAE5',
-    				'400': '#34D399',
-    				'500': '#10B981',
-    				'600': '#059669',
-    				'950': '#022C22'
     			}
     		},
     		borderRadius: {

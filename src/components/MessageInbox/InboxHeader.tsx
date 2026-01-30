@@ -60,7 +60,7 @@ const InboxHeader = ({ messagesCount, feedbackRequest, onShare, onCopyLink }: In
 
       <div className="relative z-10 text-center mb-12">
         <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-3 w-fit mx-auto mb-6 shadow-glass">
-          <HonestBoxIcon className="h-8 w-8 text-white" />
+          <HonestBoxIcon className="h-8 w-8 text-primary-foreground" />
         </div>
         <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
           Your Message Inbox

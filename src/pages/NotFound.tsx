@@ -17,7 +17,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen page-gradient flex items-center justify-center p-4 relative overflow-hidden">
       {/* Theme Toggle Button */}
       <div className="absolute top-4 right-4 z-20">
         <ThemeToggle />
@@ -32,8 +32,8 @@ const NotFound = () => {
 
       <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <CardHeader className="text-center pb-4">
-          <div className="glass-card bg-gradient-to-br from-red-500 to-red-600 p-3 w-fit mx-auto mb-4 shadow-glass">
-            <AlertTriangle className="h-8 w-8 text-white" />
+          <div className="glass-card bg-gradient-to-br from-destructive to-destructive/80 p-3 w-fit mx-auto mb-4 shadow-glass">
+            <AlertTriangle className="h-8 w-8 text-destructive-foreground" />
           </div>
           <CardTitle className="text-6xl font-bold bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent mb-2">
             404

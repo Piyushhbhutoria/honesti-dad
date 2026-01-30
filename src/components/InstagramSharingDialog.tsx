@@ -54,7 +54,7 @@ const InstagramSharingDialog = ({
       <DialogContent className="sm:max-w-md">
         <div className="flex items-center gap-3 mb-4">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/80 p-2 shadow-glass">
-            <Instagram className="h-5 w-5 text-white" />
+            <Instagram className="h-5 w-5 text-primary-foreground" />
           </div>
           <h3 className="text-xl font-semibold text-foreground">Share to Instagram</h3>
         </div>

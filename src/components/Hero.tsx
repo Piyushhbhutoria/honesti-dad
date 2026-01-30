@@ -25,7 +25,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 text-center max-w-4xl relative z-10">
         <div className="mb-8">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-4 w-fit mx-auto mb-8 shadow-glass">
-            <HonestBoxIcon className="h-12 w-12 text-white" />
+            <HonestBoxIcon className="h-12 w-12 text-primary-foreground" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent leading-tight">
             Get Honest Feedback,
@@ -61,8 +61,8 @@ const Hero = () => {
           </div>
 
           <div className="glass-card p-6 hover:shadow-glass-hover transition-all duration-300 transform hover:scale-105">
-            <div className="glass-card bg-blue-500/10 p-3 w-fit mx-auto mb-4">
-              <Send className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            <div className="glass-card bg-info/10 p-3 w-fit mx-auto mb-4">
+              <Send className="h-6 w-6 text-info" />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Easy to Share</h3>
             <p className="text-foreground/70">
@@ -71,8 +71,8 @@ const Hero = () => {
           </div>
 
           <div className="glass-card p-6 hover:shadow-glass-hover transition-all duration-300 transform hover:scale-105">
-            <div className="glass-card bg-pink-500/10 p-3 w-fit mx-auto mb-4">
-              <Heart className="h-6 w-6 text-pink-600 dark:text-pink-400" />
+            <div className="glass-card bg-destructive/10 p-3 w-fit mx-auto mb-4">
+              <Heart className="h-6 w-6 text-destructive" />
             </div>
             <h3 className="text-xl font-semibold text-foreground mb-2">Honest & Safe</h3>
             <p className="text-foreground/70">

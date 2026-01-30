@@ -108,7 +108,7 @@ const SendFeedback = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center">
+      <div className="min-h-screen page-gradient flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
           <p className="mt-4 text-foreground/70">Loading...</p>
@@ -119,7 +119,7 @@ const SendFeedback = () => {
 
   if (!feedbackRequest) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen page-gradient flex items-center justify-center relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
@@ -127,8 +127,8 @@ const SendFeedback = () => {
 
         <div className="text-center relative z-10">
           <div className="glass-card p-8 max-w-md mx-auto">
-            <div className="glass-card bg-red-500/10 p-4 w-fit mx-auto mb-6">
-              <HonestBoxIcon className="h-12 w-12 text-red-500 mx-auto" />
+            <div className="glass-card bg-destructive/10 p-4 w-fit mx-auto mb-6">
+              <HonestBoxIcon className="h-12 w-12 text-destructive mx-auto" />
             </div>
             <h2 className="text-2xl font-bold text-foreground mb-4">Feedback Request Not Found</h2>
             <p className="text-foreground/70 mb-6">This feedback link may have expired or been deactivated.</p>
@@ -147,7 +147,7 @@ const SendFeedback = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 py-12 relative overflow-hidden">
+    <div className="min-h-screen page-gradient py-12 relative overflow-hidden">
       {/* Theme Toggle Button */}
       <div className="fixed top-6 right-6 z-50">
         <Button
@@ -174,7 +174,7 @@ const SendFeedback = () => {
       <div className="container mx-auto px-4 max-w-2xl relative z-10">
         <div className="text-center mb-8">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-6 shadow-glass">
-            <HonestBoxIcon className="h-8 w-8 text-white" />
+            <HonestBoxIcon className="h-8 w-8 text-primary-foreground" />
           </div>
           <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             Send Anonymous Feedback to {feedbackRequest.name}
@@ -215,7 +215,7 @@ const SendFeedback = () => {
                 >
                   {isSubmitting ? (
                     <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground mr-2"></div>
                       Sending...
                     </div>
                   ) : (

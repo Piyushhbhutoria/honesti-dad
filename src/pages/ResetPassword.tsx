@@ -179,16 +179,16 @@ const ResetPassword = () => {
 
   const getPasswordStrength = (password: string) => {
     if (password.length === 0) return { strength: 0, label: '', color: '' };
-    if (password.length < 6) return { strength: 1, label: 'Too short', color: 'text-red-500' };
-    if (password.length < 8) return { strength: 2, label: 'Weak', color: 'text-orange-500' };
-    if (password.length < 10) return { strength: 3, label: 'Good', color: 'text-yellow-500' };
-    return { strength: 4, label: 'Strong', color: 'text-green-500' };
+    if (password.length < 6) return { strength: 1, label: 'Too short', color: 'text-error' };
+    if (password.length < 8) return { strength: 2, label: 'Weak', color: 'text-warning' };
+    if (password.length < 10) return { strength: 3, label: 'Good', color: 'text-warning' };
+    return { strength: 4, label: 'Strong', color: 'text-success' };
   };
 
   const passwordStrength = getPasswordStrength(password);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen page-gradient flex items-center justify-center p-4 relative overflow-hidden">
       {/* Theme Toggle Button */}
       <div className="absolute top-4 right-4 z-20">
         <ThemeToggle />
@@ -204,7 +204,7 @@ const ResetPassword = () => {
       <Card className="w-full max-w-md shadow-glass border-0 relative z-10 hover:shadow-glass-hover transition-all duration-300">
         <CardHeader className="text-center pb-4">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-4 shadow-glass">
-            <Lock className="h-8 w-8 text-white" />
+            <Lock className="h-8 w-8 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             Set New Password
@@ -246,12 +246,12 @@ const ResetPassword = () => {
               {password.length > 0 && (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="flex-1 bg-muted rounded-full h-2">
                       <div
-                        className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.strength === 1 ? 'bg-red-500 w-1/4' :
-                          passwordStrength.strength === 2 ? 'bg-orange-500 w-2/4' :
-                            passwordStrength.strength === 3 ? 'bg-yellow-500 w-3/4' :
-                              passwordStrength.strength === 4 ? 'bg-green-500 w-full' : 'w-0'
+                        className={`h-2 rounded-full transition-all duration-300 ${passwordStrength.strength === 1 ? 'bg-error w-1/4' :
+                          passwordStrength.strength === 2 ? 'bg-warning w-2/4' :
+                            passwordStrength.strength === 3 ? 'bg-warning w-3/4' :
+                              passwordStrength.strength === 4 ? 'bg-success w-full' : 'w-0'
                           }`}
                       />
                     </div>
@@ -280,14 +280,14 @@ const ResetPassword = () => {
                   minLength={6}
                   className={`pr-16 glass-input transition-all duration-300 ${hasStartedTyping && confirmPassword.length > 0
                     ? passwordsMatch
-                      ? 'border-green-500 focus:border-green-500'
-                      : 'border-red-500 focus:border-red-500'
+                      ? 'border-success focus:border-success'
+                      : 'border-error focus:border-error'
                     : ''
                     }`}
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
                   {hasStartedTyping && confirmPassword.length > 0 && (
-                    <div className={`transition-all duration-300 ${passwordsMatch ? 'text-green-500' : 'text-red-500'}`}>
+                    <div className={`transition-all duration-300 ${passwordsMatch ? 'text-success' : 'text-error'}`}>
                       {passwordsMatch ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
                     </div>
                   )}
@@ -304,7 +304,7 @@ const ResetPassword = () => {
 
               {/* Password match feedback */}
               {hasStartedTyping && confirmPassword.length > 0 && (
-                <div className={`text-sm transition-all duration-300 ${passwordsMatch ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                <div className={`text-sm transition-all duration-300 ${passwordsMatch ? 'text-success' : 'text-error'}`}>
                   {passwordsMatch ? (
                     <div className="flex items-center gap-1">
                       <Check className="h-3 w-3" />
@@ -326,30 +326,30 @@ const ResetPassword = () => {
                 <span className="text-sm font-medium text-foreground">Password Requirements:</span>
               </div>
               <ul className="text-sm space-y-1 ml-6">
-                <li className={`transition-colors flex items-center gap-2 ${password.length >= 8 ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                <li className={`transition-colors flex items-center gap-2 ${password.length >= 8 ? 'text-success' : 'text-foreground/70'}`}>
                   {password.length >= 8 ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
                   At least 8 characters long
                 </li>
-                <li className={`transition-colors flex items-center gap-2 ${/[A-Z]/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                <li className={`transition-colors flex items-center gap-2 ${/[A-Z]/.test(password) ? 'text-success' : 'text-foreground/70'}`}>
                   {/[A-Z]/.test(password) ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
                   At least one uppercase letter
                 </li>
-                <li className={`transition-colors flex items-center gap-2 ${/[a-z]/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                <li className={`transition-colors flex items-center gap-2 ${/[a-z]/.test(password) ? 'text-success' : 'text-foreground/70'}`}>
                   {/[a-z]/.test(password) ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
                   At least one lowercase letter
                 </li>
-                <li className={`transition-colors flex items-center gap-2 ${/\d/.test(password) ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                <li className={`transition-colors flex items-center gap-2 ${/\d/.test(password) ? 'text-success' : 'text-foreground/70'}`}>
                   {/\d/.test(password) ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
                   At least one number
                 </li>
-                <li className={`transition-colors flex items-center gap-2 ${/^[a-zA-Z0-9]+$/.test(password) && password.length > 0 ? 'text-green-600 dark:text-green-400' : 'text-foreground/70'}`}>
+                <li className={`transition-colors flex items-center gap-2 ${/^[a-zA-Z0-9]+$/.test(password) && password.length > 0 ? 'text-success' : 'text-foreground/70'}`}>
                   {/^[a-zA-Z0-9]+$/.test(password) && password.length > 0 ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
                   Only letters and numbers allowed
                 </li>
               </ul>
               {passwordValidation.errors.length > 0 && (
-                <div className="mt-3 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
-                  <p className="text-sm text-red-600 dark:text-red-400">
+                <div className="mt-3 p-2 bg-error/10 border border-error/20 rounded-md">
+                  <p className="text-sm text-error">
                     {passwordValidation.errors[0]}
                   </p>
                 </div>
@@ -364,7 +364,7 @@ const ResetPassword = () => {
             >
               {isLoading ? (
                 <div className="flex items-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground mr-2"></div>
                   Updating Password...
                 </div>
               ) : (

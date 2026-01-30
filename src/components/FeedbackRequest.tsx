@@ -173,7 +173,7 @@ const FeedbackRequest = () => {
 
   if (checkingExisting) {
     return (
-      <section className="py-20 bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 min-h-screen">
+      <section className="py-20 page-gradient min-h-screen">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
@@ -185,7 +185,7 @@ const FeedbackRequest = () => {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-teal-50 via-teal-50/50 to-teal-100 dark:from-slate-900 dark:via-slate-800 dark:to-emerald-950 min-h-screen relative overflow-hidden">
+    <section className="py-20 page-gradient min-h-screen relative overflow-hidden">
       {/* Theme Toggle Button */}
       <div className="fixed top-6 right-6 z-50">
         <Button
@@ -212,7 +212,7 @@ const FeedbackRequest = () => {
       <div className="container mx-auto px-4 max-w-2xl relative z-10">
         <div className="text-center mb-12">
           <div className="glass-card bg-gradient-to-br from-primary to-primary/90 p-3 w-fit mx-auto mb-6 shadow-glass">
-            <HonestBoxIcon className="h-8 w-8 text-white" />
+            <HonestBoxIcon className="h-8 w-8 text-primary-foreground" />
           </div>
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/90 bg-clip-text text-transparent">
             {existingRequest ? "Your Feedback Link" : "Request Anonymous Feedback"}
@@ -231,7 +231,7 @@ const FeedbackRequest = () => {
             <Card className="shadow-glass border-0 hover:shadow-glass-hover transition-all duration-300">
               <CardHeader className="pb-4">
                 <CardTitle className="text-center text-foreground flex items-center justify-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <CheckCircle className="h-5 w-5 text-success" />
                   Your Feedback Link is Active
                 </CardTitle>
               </CardHeader>
@@ -318,7 +318,7 @@ const FeedbackRequest = () => {
                 >
                   {isLoading ? (
                     <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground mr-2"></div>
                       Generating...
                     </div>
                   ) : (
